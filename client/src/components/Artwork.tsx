@@ -1,6 +1,7 @@
 import easyImage from '../assets/easy.webp';
 import mediumImg from '../assets/medium.webp';
 import hardImg from '../assets/hard.webp';
+const env = import.meta.env;
 
 export default function Artwork({
   currentImage,
@@ -16,28 +17,87 @@ export default function Artwork({
         setCurrentImage={setCurrentImage}
       />
       <div className='p-4 hover:cursor-cell bg-black/60 rounded-b-2xl'>
-        <img
-          alt='pirate vs alien'
-          src={easyImage}
-          className={`rounded-2xl mx-auto w-full ${currentImage === 'Pirates' ? '' : 'hidden'}`}
-        />
-        <img
-          alt='airport in winter'
-          src={mediumImg}
-          className={`rounded-2xl mx-auto w-full ${currentImage === 'Airport' ? '' : 'hidden'}`}
-        />
-        <img
-          alt='games con or some other tech expo'
-          src={hardImg}
-          className={`rounded-2xl mx-auto w-full ${currentImage === 'Library' ? '' : 'hidden'}`}
-        />
+        <span
+          className={`relative ${currentImage === 'Pirates' ? '' : 'hidden'}`}
+        >
+          <img
+            alt='pirate vs alien'
+            src={easyImage}
+            className={` rounded-2xl mx-auto w-full`}
+          />
+
+          <PositionIndicator
+            y={env.VITE_PIRATES_1_Y}
+            x={env.VITE_PIRATES_1_X}
+          />
+          <PositionIndicator
+            y={env.VITE_PIRATES_2_Y}
+            x={env.VITE_PIRATES_2_X}
+          />
+          <PositionIndicator
+            y={env.VITE_PIRATES_3_Y}
+            x={env.VITE_PIRATES_3_X}
+          />
+        </span>
+        <span
+          className={`relative ${currentImage === 'Airport' ? '' : 'hidden'}`}
+        >
+          <img
+            alt='airport in winter'
+            src={mediumImg}
+            className={`rounded-2xl mx-auto w-full`}
+          />
+
+          <PositionIndicator
+            y={env.VITE_AIRPORT_1_Y}
+            x={env.VITE_AIRPORT_1_X}
+          />
+          <PositionIndicator
+            y={env.VITE_AIRPORT_2_Y}
+            x={env.VITE_AIRPORT_2_X}
+          />
+          <PositionIndicator
+            y={env.VITE_AIRPORT_3_Y}
+            x={env.VITE_AIRPORT_3_X}
+          />
+        </span>
+        <span
+          className={`relative ${currentImage === 'Library' ? '' : 'hidden'}`}
+        >
+          <img
+            alt='games con or some other tech expo'
+            src={hardImg}
+            className={`rounded-2xl mx-auto w-full`}
+          />
+          <PositionIndicator
+            y={env.VITE_LIBRARY_1_Y}
+            x={env.VITE_LIBRARY_1_X}
+          />
+          <PositionIndicator
+            y={env.VITE_LIBRARY_2_Y}
+            x={env.VITE_LIBRARY_2_X}
+          />
+          <PositionIndicator
+            y={env.VITE_LIBRARY_3_Y}
+            x={env.VITE_LIBRARY_3_X}
+          />
+        </span>
       </div>
     </section>
   );
 }
 
+function PositionIndicator({ x, y }: { x: string; y: string }) {
+  return (
+    <div
+      style={{ top: y, right: x }}
+      className='absolute h-[8%] w-[3%] bg-yellow-400/40'
+    ></div>
+  );
+}
+
 // Artwork component header element
-export function ArtworkHeader({
+function ArtworkHeader({
   currentImage,
   setCurrentImage,
 }: {

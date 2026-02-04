@@ -53,8 +53,8 @@ function ListBullet({
         className='mt-2 h-2 w-2 rounded-full'
       ></div>
       <div>
-        <h6 className='font-bold text-lg'>{heading}</h6>
-        <p className='text-gray-100'>{paragraph}</p>
+        <h6 className='font-bold text-md'>{heading}</h6>
+        <p className='text-gray-100 text-md'>{paragraph}</p>
       </div>
     </li>
   );
