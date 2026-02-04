@@ -1,4 +1,8 @@
-export default function LeaderBoards() {
+export default function LeaderBoards({
+  currentImage,
+}: {
+  currentImage: string;
+}) {
   return (
     <div
       id='leaderboards'
@@ -7,7 +11,9 @@ export default function LeaderBoards() {
       <header className='flex justify-between items-center mb-5'>
         <div>
           <h5 className='font-bold text-xl'>Hall of Fame</h5>
-          <p className='text-gray-400'>Top 10</p>
+          <p className='text-gray-400'>
+            Top 10 scores for <span>{currentImage}</span>
+          </p>
         </div>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -21,7 +27,10 @@ export default function LeaderBoards() {
       </header>
 
       <table className='w-full'>
-        <thead className='flex text-gray-400 border-b border-gray-700 pb-2 justify-between'>
+        <thead
+          aria-label='leaderboards table'
+          className='flex text-gray-400 border-b border-gray-700 pb-2 justify-between'
+        >
           <th>RANK</th>
           <th>NAME</th>
           <th>TIME</th>

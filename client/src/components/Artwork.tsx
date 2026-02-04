@@ -1,27 +1,33 @@
-import { useState } from 'react';
 import easyImage from '../assets/easy.webp';
 import mediumImg from '../assets/medium.webp';
 import hardImg from '../assets/hard.webp';
 
-export default function Artwork() {
-  const [currentImage, setCurrentImage] = useState<string>('Pirates');
-
+export default function Artwork({
+  currentImage,
+  setCurrentImage,
+}: {
+  currentImage: string;
+  setCurrentImage: (val: string) => void;
+}) {
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
       <ArtworkHeader
         currentImage={currentImage}
         setCurrentImage={setCurrentImage}
       />
-      <div className='p-4 bg-black/60 rounded-b-2xl'>
+      <div className='p-4 hover:cursor-cell bg-black/60 rounded-b-2xl'>
         <img
+          alt='pirate vs alien'
           src={easyImage}
           className={`rounded-2xl mx-auto w-full ${currentImage === 'Pirates' ? '' : 'hidden'}`}
         />
         <img
+          alt='airport in winter'
           src={mediumImg}
           className={`rounded-2xl mx-auto w-full ${currentImage === 'Airport' ? '' : 'hidden'}`}
         />
         <img
+          alt='games con or some other tech expo'
           src={hardImg}
           className={`rounded-2xl mx-auto w-full ${currentImage === 'Library' ? '' : 'hidden'}`}
         />
@@ -53,7 +59,7 @@ export function ArtworkHeader({
           </svg>
         </div>
         <span>
-          <h4 className='text-white font-bold'>{currentImage}</h4>
+          <h2 className='text-white font-bold'>{currentImage}</h2>
           <p className='text-gray-300 text-xs'>Click anywhere to guess.</p>
         </span>
       </div>
