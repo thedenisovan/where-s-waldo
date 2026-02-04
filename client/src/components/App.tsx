@@ -2,10 +2,18 @@ import Header from './Header';
 import Artwork from './Artwork';
 import RulesCard from './RulesCard';
 import LeaderBoards from './LeaderBoards';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
+
+const GameContext = createContext({
+  isGameOn: false,
+  setIsGameOn: (val: boolean) => {
+    void val;
+  },
+});
 
 export default function App() {
   const [currentImage, setCurrentImage] = useState<string>('Pirates');
+  const [isGameOn, setIsGameOn] = useState<boolean>(false);
 
   return (
     <div className='min-h-screen bg-black'>
@@ -13,11 +21,13 @@ export default function App() {
         <div className='h-80 w-80 top-40 left-0 right-50 absolute bg-pink-300 blur-[200px]'></div>
         <div className='h-80 w-80 top-40 right-0 absolute bg-blue-300 blur-[200px]'></div>
         <div className='h-50 w-50 right-[50%] bottom-0 absolute bg-gray-300 blur-[240px]'></div>
-        <Header />
-        <Artwork
-          currentImage={currentImage}
-          setCurrentImage={setCurrentImage}
-        />
+        <GameContext.Provider value={{ isGameOn, setIsGameOn }}>
+          <Header />
+          <Artwork
+            currentImage={currentImage}
+            setCurrentImage={setCurrentImage}
+          />
+        </GameContext.Provider>
         <section className='grid md:grid-cols-2 mt-10 gap-10'>
           <RulesCard />
           <LeaderBoards currentImage={currentImage} />
