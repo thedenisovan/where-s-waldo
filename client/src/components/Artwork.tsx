@@ -10,6 +10,18 @@ export default function Artwork({
   currentImage: string;
   setCurrentImage: (val: string) => void;
 }) {
+  const getClickCoordinates = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+  ) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+
+    console.log(x, y);
+    console.log(e.clientX - rect.left);
+    console.log(rect.width);
+  };
+
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
       <ArtworkHeader
@@ -21,24 +33,13 @@ export default function Artwork({
           className={`relative ${currentImage === 'Pirates' ? '' : 'hidden'}`}
         >
           <img
+            onClick={(e) => getClickCoordinates(e)}
             alt='pirate vs alien'
             src={easyImage}
             className={` rounded-2xl mx-auto w-full`}
           />
-
-          <PositionIndicator
-            y={env.VITE_PIRATES_1_Y}
-            x={env.VITE_PIRATES_1_X}
-          />
-          <PositionIndicator
-            y={env.VITE_PIRATES_2_Y}
-            x={env.VITE_PIRATES_2_X}
-          />
-          <PositionIndicator
-            y={env.VITE_PIRATES_3_Y}
-            x={env.VITE_PIRATES_3_X}
-          />
         </span>
+
         <span
           className={`relative ${currentImage === 'Airport' ? '' : 'hidden'}`}
         >
@@ -47,20 +48,8 @@ export default function Artwork({
             src={mediumImg}
             className={`rounded-2xl mx-auto w-full`}
           />
-
-          <PositionIndicator
-            y={env.VITE_AIRPORT_1_Y}
-            x={env.VITE_AIRPORT_1_X}
-          />
-          <PositionIndicator
-            y={env.VITE_AIRPORT_2_Y}
-            x={env.VITE_AIRPORT_2_X}
-          />
-          <PositionIndicator
-            y={env.VITE_AIRPORT_3_Y}
-            x={env.VITE_AIRPORT_3_X}
-          />
         </span>
+
         <span
           className={`relative ${currentImage === 'Library' ? '' : 'hidden'}`}
         >
@@ -69,30 +58,9 @@ export default function Artwork({
             src={hardImg}
             className={`rounded-2xl mx-auto w-full`}
           />
-          <PositionIndicator
-            y={env.VITE_LIBRARY_1_Y}
-            x={env.VITE_LIBRARY_1_X}
-          />
-          <PositionIndicator
-            y={env.VITE_LIBRARY_2_Y}
-            x={env.VITE_LIBRARY_2_X}
-          />
-          <PositionIndicator
-            y={env.VITE_LIBRARY_3_Y}
-            x={env.VITE_LIBRARY_3_X}
-          />
         </span>
       </div>
     </section>
-  );
-}
-
-function PositionIndicator({ x, y }: { x: string; y: string }) {
-  return (
-    <div
-      style={{ top: y, right: x }}
-      className='absolute h-[8%] w-[3%] bg-yellow-400/40'
-    ></div>
   );
 }
 

@@ -31,12 +31,14 @@ export default function LeaderBoards({
           aria-label='leaderboards table'
           className='flex text-gray-400 border-b border-gray-700 pb-2 justify-between'
         >
-          <th>RANK</th>
-          <th>NAME</th>
-          <th>TIME</th>
-          <th>ATTEMPTS</th>
-          <th>SCORE</th>
-          <th>DATE</th>
+          <tr>
+            <th>RANK</th>
+            <th>NAME</th>
+            <th>TIME</th>
+            <th>ATTEMPTS</th>
+            <th>SCORE</th>
+            <th>DATE</th>
+          </tr>
         </thead>
       </table>
     </div>
