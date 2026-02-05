@@ -1,6 +1,7 @@
 import easyImage from '../assets/easy.webp';
 import mediumImg from '../assets/medium.webp';
 import hardImg from '../assets/hard.webp';
+import { useEffect, useState } from 'react';
 const env = import.meta.env;
 
 export default function Artwork({
@@ -10,17 +11,35 @@ export default function Artwork({
   currentImage: string;
   setCurrentImage: (val: string) => void;
 }) {
+  // Coordinates are measured in percentage so when display size changes they stay the same
+  const [coordinates, setCoordinates] = useState<number[]>([]);
+
+  // Gets coordinates of user click
   const getClickCoordinates = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
   ) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+    // Get mouse x,y position relative it's position and transform it coords to percentage units
+    const x = +(((e.clientX - rect.left) / rect.width) * 100).toFixed(2);
+    const y = +(((e.clientY - rect.top) / rect.height) * 100).toFixed(2);
 
-    console.log(x, y);
-    console.log(e.clientX - rect.left);
-    console.log(rect.width);
+    setCoordinates([x, y]);
   };
+
+  useEffect(() => {
+    if (
+      coordinates[0] > env.VITE_PIRATES_1_X_MIN &&
+      coordinates[0] < env.VITE_PIRATES_1_X_MAX &&
+      coordinates[1] > env.VITE_PIRATES_1_Y_MIN &&
+      coordinates[1] < env.VITE_PIRATES_1_Y_MAX
+    ) {
+      console.log('correct');
+      console.log(coordinates);
+    } else {
+      console.log('wrong');
+      console.log(coordinates);
+    }
+  });
 
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
@@ -44,6 +63,7 @@ export default function Artwork({
           className={`relative ${currentImage === 'Airport' ? '' : 'hidden'}`}
         >
           <img
+            onClick={(e) => getClickCoordinates(e)}
             alt='airport in winter'
             src={mediumImg}
             className={`rounded-2xl mx-auto w-full`}
@@ -54,6 +74,7 @@ export default function Artwork({
           className={`relative ${currentImage === 'Library' ? '' : 'hidden'}`}
         >
           <img
+            onClick={(e) => getClickCoordinates(e)}
             alt='games con or some other tech expo'
             src={hardImg}
             className={`rounded-2xl mx-auto w-full`}
