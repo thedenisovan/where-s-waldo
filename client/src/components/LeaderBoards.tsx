@@ -27,11 +27,8 @@ export default function LeaderBoards({
       </header>
 
       <table className='w-full'>
-        <thead
-          aria-label='leaderboards table'
-          className='flex text-gray-400 border-b border-gray-700 pb-2 justify-between'
-        >
-          <tr>
+        <thead aria-label='leaderboards table'>
+          <tr className='text-gray-400 text-xs md:text-md border-b border-gray-700 pb-2'>
             <th>RANK</th>
             <th>NAME</th>
             <th>TIME</th>
