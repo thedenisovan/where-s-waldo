@@ -28,13 +28,13 @@ export default function LeaderBoards({
 
       <table className='w-full'>
         <thead aria-label='leaderboards table'>
-          <tr className='text-gray-400 text-xs md:text-md border-b border-gray-700 pb-2'>
-            <th>RANK</th>
-            <th>NAME</th>
-            <th>TIME</th>
-            <th>ATTEMPTS</th>
-            <th>SCORE</th>
-            <th>DATE</th>
+          <tr className='text-gray-400 text-xs md:text-md border-b border-gray-700'>
+            <th className='pb-2'>RANK</th>
+            <th className='pb-2'>NAME</th>
+            <th className='pb-2'>TIME</th>
+            <th className='pb-2'>ATTEMPTS</th>
+            <th className='pb-2'>SCORE</th>
+            <th className='pb-2'>DATE</th>
           </tr>
         </thead>
       </table>
