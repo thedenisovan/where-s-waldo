@@ -15,12 +15,11 @@ export default function App() {
         <div className='h-80 w-80 top-40 left-0 right-50 absolute bg-pink-300 blur-[200px]'></div>
         <div className='h-80 w-80 top-40 right-0 absolute bg-blue-300 blur-[200px]'></div>
         <div className='h-50 w-50 right-[50%] bottom-0 absolute bg-gray-300 blur-[240px]'></div>
-        <GameContext.Provider value={{ isGameOn, setIsGameOn }}>
+        <GameContext.Provider
+          value={{ isGameOn, setIsGameOn, currentImage, setCurrentImage }}
+        >
           <Header />
-          <Artwork
-            currentImage={currentImage}
-            setCurrentImage={setCurrentImage}
-          />
+          <Artwork />
         </GameContext.Provider>
         <section className='grid md:grid-cols-2 mt-10 gap-10'>
           <RulesCard />

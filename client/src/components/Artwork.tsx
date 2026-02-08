@@ -4,13 +4,7 @@ import hardImg from '../assets/hard.webp';
 import { GameContext } from './App';
 import { useContext, useState } from 'react';
 
-export default function Artwork({
-  currentImage,
-  setCurrentImage,
-}: {
-  currentImage: string;
-  setCurrentImage: (val: string) => void;
-}) {
+export default function Artwork() {
   // Coordinates of click are measured in percentage so when display size changes they stay the same
   const [coordinates, setCoordinates] = useState<number[]>([]);
   const game = useContext(GameContext);
@@ -29,62 +23,37 @@ export default function Artwork({
 
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
-      <ArtworkHeader
-        currentImage={currentImage}
-        setCurrentImage={setCurrentImage}
-      />
+      <ArtworkHeader />
       <div className='p-4 hover:cursor-cell bg-black/60 rounded-b-2xl'>
-        <span
-          className={`relative ${currentImage === 'Pirates' ? '' : 'hidden'}`}
-        >
-          <img
-            onClick={(e) => getClickCoordinates(e)}
-            alt='pirate vs alien'
-            src={easyImage}
-            className={`${game.isGameOn ? '' : 'blur-lg'} rounded-2xl mx-auto w-full`}
-          />
-          <button
-            onClick={() => game.setIsGameOn(true)}
-            className={`hover:cursor-pointer hover:bg-blue-500 transition-colors min-h-fit min-w-fit text-sm bg-blue-400 font-bold md:text-lg rounded-3xl py-4 px-6 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  bottom-[50%] ${!game.isGameOn ? 'absolute' : 'hidden'}`}
-          >
-            Click to Play
-          </button>
-        </span>
+        <LevelImage
+          getClickCoordinates={getClickCoordinates}
+          gameLevel='Pirates'
+          alt='Pirates versus aliens shipt battle'
+          src={easyImage}
+        />
 
-        <span
-          className={`relative ${currentImage === 'Airport' ? '' : 'hidden'}`}
-        >
-          <img
-            onClick={(e) => getClickCoordinates(e)}
-            alt='airport in winter'
-            src={mediumImg}
-            className={`rounded-2xl mx-auto w-full`}
-          />
-        </span>
+        <LevelImage
+          getClickCoordinates={getClickCoordinates}
+          gameLevel='Airport'
+          alt='busy airport'
+          src={mediumImg}
+        />
 
-        <span
-          className={`relative ${currentImage === 'Library' ? '' : 'hidden'}`}
-        >
-          <img
-            onClick={(e) => getClickCoordinates(e)}
-            alt='games con or some other tech expo'
-            src={hardImg}
-            className={`rounded-2xl mx-auto w-full`}
-          />
-        </span>
+        <LevelImage
+          getClickCoordinates={getClickCoordinates}
+          gameLevel='Library'
+          alt='busy tech expo'
+          src={hardImg}
+        />
       </div>
     </section>
   );
 }
 
 // Artwork component header element
-function ArtworkHeader({
-  currentImage,
-  setCurrentImage,
-}: {
-  currentImage: string;
-  setCurrentImage: (val: string) => void;
-}) {
+function ArtworkHeader() {
+  const game = useContext(GameContext);
+
   return (
     <header className='flex justify-between items-center px-3 py-2 bg-gray-300/10 rounded-t-2xl'>
       <div className='hidden md:flex items-center gap-2'>
@@ -100,7 +69,7 @@ function ArtworkHeader({
           </svg>
         </div>
         <span>
-          <h2 className='text-white font-bold'>{currentImage}</h2>
+          <h2 className='text-white font-bold'>{game.currentImage}</h2>
           <p className='text-gray-300 text-xs'>Click anywhere to guess.</p>
         </span>
       </div>
@@ -140,50 +109,75 @@ function ArtworkHeader({
       </div>
 
       <ul className='flex max-h-fit p-2 gap-2 rounded-full bg-gray-900/20 border-gray-800 border-2 items-center'>
-        <ArtworkSelectButton
-          currentImage={currentImage}
-          selection='Pirates'
-          setCurrentImage={() => setCurrentImage('Pirates')}
-        />
+        <ArtworkSelectButton gameLevel='Pirates' />
 
-        <ArtworkSelectButton
-          currentImage={currentImage}
-          selection='Airport'
-          setCurrentImage={() => setCurrentImage('Airport')}
-        />
+        <ArtworkSelectButton gameLevel='Airport' />
 
-        <ArtworkSelectButton
-          currentImage={currentImage}
-          selection='Library'
-          setCurrentImage={() => setCurrentImage('Library')}
-        />
+        <ArtworkSelectButton gameLevel='Library' />
       </ul>
     </header>
   );
 }
 
 // Switch between different artworks to play wheres aldo
-function ArtworkSelectButton({
-  selection,
-  setCurrentImage,
-  currentImage,
-}: {
-  selection: string;
-  currentImage: string;
-  setCurrentImage: (val: string) => void;
-}) {
+function ArtworkSelectButton({ gameLevel }: { gameLevel: string }) {
+  const game = useContext(GameContext);
+
   return (
     <li>
       <button
-        onClick={() => setCurrentImage(selection)}
+        onClick={() => {
+          game.setIsGameOn(false);
+          game.setCurrentImage(gameLevel);
+        }}
         className='rounded-xl px-2 text-sm text-gray-300 hover:bg-gray-200 hover:text-black transition cursor-pointer'
         style={{
-          backgroundColor: selection === currentImage ? 'white' : '',
-          color: selection === currentImage ? 'black' : '',
+          backgroundColor: gameLevel === game.currentImage ? 'white' : '',
+          color: gameLevel === game.currentImage ? 'black' : '',
         }}
       >
-        {selection}
+        {gameLevel}
       </button>
     </li>
+  );
+}
+
+function LevelImage({
+  getClickCoordinates,
+  gameLevel,
+  alt,
+  src,
+}: {
+  getClickCoordinates: (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+  ) => void;
+  gameLevel: string;
+  alt: string;
+  src: string;
+}) {
+  const game = useContext(GameContext);
+
+  return (
+    <span
+      className='relative'
+      style={{
+        display: game.currentImage === gameLevel ? '' : 'none',
+      }}
+    >
+      <img
+        onClick={(e) => getClickCoordinates(e)}
+        alt={alt}
+        src={src}
+        style={{ filter: game.isGameOn ? '' : 'blur(1.5rem)' }}
+        className={`rounded-2xl mx-auto w-full`}
+      />
+      <button
+        onClick={() => game.setIsGameOn(true)}
+        style={{ display: game.isGameOn ? 'none' : '' }}
+        className={`hover:cursor-pointer hover:bg-blue-500 absolute transition-colors min-h-fit min-w-fit text-sm bg-blue-400 font-bold md:text-lg rounded-3xl py-4 px-6 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  bottom-[50%] `}
+      >
+        Click to Play
+      </button>
+    </span>
   );
 }

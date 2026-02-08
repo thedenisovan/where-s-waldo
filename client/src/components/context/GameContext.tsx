@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext } from 'react';
 
 const GameContext = createContext({
   isGameOn: false,
-  setIsGameOn: (val: boolean) => {
-    void val;
-  },
+
+  setIsGameOn: (_val: boolean) => {},
+  currentImage: '',
+  setCurrentImage: (_val: string) => {},
 });
 
 export default GameContext;
