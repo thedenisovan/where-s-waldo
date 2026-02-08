@@ -8,6 +8,8 @@ import GameContext from './context/GameContext';
 export default function App() {
   const [currentImage, setCurrentImage] = useState<string>('Pirates');
   const [isGameOn, setIsGameOn] = useState<boolean>(false);
+  // Coordinates of click are measured in percentage so when display size changes they stay the same
+  const [coordinates, setCoordinates] = useState<number[]>([-1, -1]);
 
   return (
     <div className='min-h-screen bg-black'>
@@ -16,7 +18,14 @@ export default function App() {
         <div className='h-80 w-80 top-40 right-0 absolute bg-blue-300 blur-[200px]'></div>
         <div className='h-50 w-50 right-[50%] bottom-0 absolute bg-gray-300 blur-[240px]'></div>
         <GameContext.Provider
-          value={{ isGameOn, setIsGameOn, currentImage, setCurrentImage }}
+          value={{
+            isGameOn,
+            setIsGameOn,
+            currentImage,
+            setCurrentImage,
+            coordinates,
+            setCoordinates,
+          }}
         >
           <Header />
           <Artwork />

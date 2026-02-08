@@ -1,6 +1,10 @@
+import { useContext } from 'react';
 import shine from '../assets/shines.svg';
+import { GameContext } from './App';
 
 export default function Header() {
+  const game = useContext(GameContext);
+
   return (
     <header className='flex relative z-10 flex-col gap-3'>
       <div className='flex justify-between'>
@@ -32,7 +36,13 @@ export default function Header() {
           >
             <p>Hint (+20s)</p>
           </button>
-          <button className='hover:cursor-pointer hover:bg-gray-800/60 transition-colors border max-w-fit border-gray-600 flex gap-3 items-center rounded-2xl bg-black/40 font-medium py-1 px-5 text-white'>
+          <button
+            onClick={() => {
+              game.setIsGameOn(false);
+              game.setCoordinates([-1, -1]);
+            }}
+            className='hover:cursor-pointer hover:bg-gray-800/60 transition-colors border max-w-fit border-gray-600 flex gap-3 items-center rounded-2xl bg-black/40 font-medium py-1 px-5 text-white'
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               height='20px'

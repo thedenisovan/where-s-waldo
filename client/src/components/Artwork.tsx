@@ -1,12 +1,10 @@
-import easyImage from '../assets/easy.webp';
-import mediumImg from '../assets/medium.webp';
-import hardImg from '../assets/hard.webp';
+import gameImages from '../util.imports';
+import LevelImage from './artwork_components/LevelImage';
+import ArtworkHeader from './artwork_components/ArtworkHeader';
+import { useContext } from 'react';
 import { GameContext } from './App';
-import { useContext, useState } from 'react';
 
 export default function Artwork() {
-  // Coordinates of click are measured in percentage so when display size changes they stay the same
-  const [coordinates, setCoordinates] = useState<number[]>([]);
   const game = useContext(GameContext);
 
   // Gets coordinates of user click
@@ -18,166 +16,39 @@ export default function Artwork() {
     const x = +(((e.clientX - rect.left) / rect.width) * 100).toFixed(2);
     const y = +(((e.clientY - rect.top) / rect.height) * 100).toFixed(2);
 
-    setCoordinates([x, y]);
+    game.setCoordinates([x, y]);
   };
+
+  console.log(game.coordinates);
 
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
       <ArtworkHeader />
       <div className='p-4 hover:cursor-cell bg-black/60 rounded-b-2xl'>
         <LevelImage
+          coordinates={game.coordinates}
           getClickCoordinates={getClickCoordinates}
           gameLevel='Pirates'
           alt='Pirates versus aliens shipt battle'
-          src={easyImage}
+          src={gameImages.easyImg}
         />
 
         <LevelImage
+          coordinates={game.coordinates}
           getClickCoordinates={getClickCoordinates}
           gameLevel='Airport'
           alt='busy airport'
-          src={mediumImg}
+          src={gameImages.mediumImg}
         />
 
         <LevelImage
+          coordinates={game.coordinates}
           getClickCoordinates={getClickCoordinates}
           gameLevel='Library'
           alt='busy tech expo'
-          src={hardImg}
+          src={gameImages.hardImg}
         />
       </div>
     </section>
-  );
-}
-
-// Artwork component header element
-function ArtworkHeader() {
-  const game = useContext(GameContext);
-
-  return (
-    <header className='flex justify-between items-center px-3 py-2 bg-gray-300/10 rounded-t-2xl'>
-      <div className='hidden md:flex items-center gap-2'>
-        <div className='bg-slate-200/30 rounded-full w-10 h-10 flex items-center justify-center border-2 border-black px-1 py-3'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            height='25px'
-            viewBox='0 -960 960 960'
-            width='25px'
-            fill='#F19E39'
-          >
-            <path d='M480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170l-73-24q-9-62-56.5-103T480-648q-70 0-119 49t-49 119q0 63 41 110.5T456-313l24 73Zm44 141q-11 2-22 2.5t-22 .5q-79 0-149-30t-122.5-82.5Q156-261 126-331T96-480q0-80 30-149.5t82.5-122Q261-804 331-834t149-30q80 0 149.5 30t122 82.5Q804-699 834-629.5T864-480q0 11-.5 22t-1.5 22l-70-22v-22q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91q5 0 11-.5t11-.5l22 70Zm296 27L654-239 600-96 480-480l384 120-143 53 167 167-68 68Z' />
-          </svg>
-        </div>
-        <span>
-          <h2 className='text-white font-bold'>{game.currentImage}</h2>
-          <p className='text-gray-300 text-xs'>Click anywhere to guess.</p>
-        </span>
-      </div>
-
-      <div className='flex items-center gap-7'>
-        <div className='flex items-center gap-1'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            height='24px'
-            viewBox='0 -960 960 960'
-            width='24px'
-            fill='#909090'
-          >
-            <path d='M360-840v-80h240v80H360Zm80 440h80v-240h-80v240Zm-99.5 291.5Q275-137 226-186t-77.5-114.5Q120-366 120-440t28.5-139.5Q177-645 226-694t114.5-77.5Q406-800 480-800q62 0 119 20t107 58l56-56 56 56-56 56q38 50 58 107t20 119q0 74-28.5 139.5T734-186q-49 49-114.5 77.5T480-80q-74 0-139.5-28.5ZM678-242q82-82 82-198t-82-198q-82-82-198-82t-198 82q-82 82-82 198t82 198q82 82 198 82t198-82ZM480-440Z' />
-          </svg>
-          <div>
-            <p className='text-gray-300 text-xs'>TIME</p>
-            <p className='text-white'>0:00</p>
-          </div>
-        </div>
-
-        <div className='hidden md:flex items-center gap-1'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            height='24px'
-            viewBox='0 -960 960 960'
-            width='24px'
-            fill='#909090'
-          >
-            <path d='M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880t156 31.5Q709-817 763-763t85.5 127Q880-563 880-480t-31.5 156Q817-251 763-197t-127 85.5Q563-80 480-80t-156-31.5ZM707-253q93-93 93-227t-93-227q-93-93-227-93t-227 93q-93 93-93 227t93 227q93 93 227 93t227-93Zm-397-57q-70-70-70-170t70-170q70-70 170-70t170 70q70 70 70 170t-70 170q-70 70-170 70t-170-70Zm283-57q47-47 47-113t-47-113q-47-47-113-47t-113 47q-47 47-47 113t47 113q47 47 113 47t113-47Zm-169.5-56.5Q400-447 400-480t23.5-56.5Q447-560 480-560t56.5 23.5Q560-513 560-480t-23.5 56.5Q513-400 480-400t-56.5-23.5Z' />
-          </svg>
-          <div>
-            <p className='text-gray-300 text-xs'>ATTEMPTS</p>
-            <p className='text-white'>0</p>
-          </div>
-        </div>
-      </div>
-
-      <ul className='flex max-h-fit p-2 gap-2 rounded-full bg-gray-900/20 border-gray-800 border-2 items-center'>
-        <ArtworkSelectButton gameLevel='Pirates' />
-
-        <ArtworkSelectButton gameLevel='Airport' />
-
-        <ArtworkSelectButton gameLevel='Library' />
-      </ul>
-    </header>
-  );
-}
-
-// Switch between different artworks to play wheres aldo
-function ArtworkSelectButton({ gameLevel }: { gameLevel: string }) {
-  const game = useContext(GameContext);
-
-  return (
-    <li>
-      <button
-        onClick={() => {
-          game.setIsGameOn(false);
-          game.setCurrentImage(gameLevel);
-        }}
-        className='rounded-xl px-2 text-sm text-gray-300 hover:bg-gray-200 hover:text-black transition cursor-pointer'
-        style={{
-          backgroundColor: gameLevel === game.currentImage ? 'white' : '',
-          color: gameLevel === game.currentImage ? 'black' : '',
-        }}
-      >
-        {gameLevel}
-      </button>
-    </li>
-  );
-}
-
-function LevelImage({
-  getClickCoordinates,
-  gameLevel,
-  alt,
-  src,
-}: {
-  getClickCoordinates: (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
-  ) => void;
-  gameLevel: string;
-  alt: string;
-  src: string;
-}) {
-  const game = useContext(GameContext);
-
-  return (
-    <span
-      className='relative'
-      style={{
-        display: game.currentImage === gameLevel ? '' : 'none',
-      }}
-    >
-      <img
-        onClick={(e) => getClickCoordinates(e)}
-        alt={alt}
-        src={src}
-        style={{ filter: game.isGameOn ? '' : 'blur(1.5rem)' }}
-        className={`rounded-2xl mx-auto w-full`}
-      />
-      <button
-        onClick={() => game.setIsGameOn(true)}
-        style={{ display: game.isGameOn ? 'none' : '' }}
-        className={`hover:cursor-pointer hover:bg-blue-500 absolute transition-colors min-h-fit min-w-fit text-sm bg-blue-400 font-bold md:text-lg rounded-3xl py-4 px-6 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  bottom-[50%] `}
-      >
-        Click to Play
-      </button>
-    </span>
   );
 }
