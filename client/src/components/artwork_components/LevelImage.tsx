@@ -99,6 +99,7 @@ export default function LevelImage({
   );
 }
 
+// Drop down menu, from where user selects character
 function CharacterDropDown({
   img1,
   img2,
@@ -120,8 +121,10 @@ function CharacterDropDown({
     <ul
       className='absolute bg-white flex flex-col gap-1 py-1 px-1 rounded-xl max-h-fit'
       style={{
-        top: `${game.coordinates[1] + 2}%`,
-        left: `${game.coordinates[0] + 2}%`,
+        // Conditionals so if user clicks on right/left/top/bottom side of the image the
+        // select element appears on opposite side
+        top: `${game.coordinates[1] < 50 ? game.coordinates[1] + 2 : game.coordinates[1] - 24}%`,
+        left: `${game.coordinates[0] < 50 ? game.coordinates[0] + 1 : game.coordinates[0] - 14}%`,
         display:
           game.coordinates[0] === -1 ||
           game.coordinates[1] === -1 ||
