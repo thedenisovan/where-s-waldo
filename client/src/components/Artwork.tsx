@@ -26,27 +26,42 @@ export default function Artwork() {
       <ArtworkHeader />
       <div className='p-4 hover:cursor-cell bg-black/60 rounded-b-2xl'>
         <LevelImage
-          coordinates={game.coordinates}
+          img1={gameImages.davyJones}
+          img2={gameImages.cupHead}
+          img3={gameImages.iceMan}
           getClickCoordinates={getClickCoordinates}
           gameLevel='Pirates'
           alt='Pirates versus aliens shipt battle'
           src={gameImages.easyImg}
+          title1={'Davy Jones'}
+          title2={'Cup Head'}
+          title3={'Ice Man'}
         />
 
         <LevelImage
-          coordinates={game.coordinates}
           getClickCoordinates={getClickCoordinates}
           gameLevel='Airport'
           alt='busy airport'
           src={gameImages.mediumImg}
+          img1={gameImages.easyBoxer}
+          img2={gameImages.mediumBoxer}
+          img3={gameImages.hardBoxer}
+          title1={'Mike Dwight'}
+          title2={'Pink Floyd'}
+          title3={'Marquis Jones'}
         />
 
         <LevelImage
-          coordinates={game.coordinates}
           getClickCoordinates={getClickCoordinates}
           gameLevel='Library'
           alt='busy tech expo'
           src={gameImages.hardImg}
+          img1={gameImages.supZero}
+          img2={gameImages.shrek}
+          img3={gameImages.patrick}
+          title1={'Sub-Zero'}
+          title2={'Shrek'}
+          title3={'Patrick'}
         />
       </div>
     </section>

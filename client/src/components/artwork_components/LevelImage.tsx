@@ -8,7 +8,12 @@ export default function LevelImage({
   gameLevel,
   alt,
   src,
-  coordinates,
+  img1,
+  img2,
+  img3,
+  title1,
+  title2,
+  title3,
 }: {
   getClickCoordinates: (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
@@ -16,7 +21,12 @@ export default function LevelImage({
   gameLevel: string;
   alt: string;
   src: string;
-  coordinates: number[];
+  img1: string;
+  img2: string;
+  img3: string;
+  title1: string;
+  title2: string;
+  title3: string;
 }) {
   const game = useContext(GameContext);
 
@@ -30,10 +40,12 @@ export default function LevelImage({
       {/* Indicator showing where user clicked */}
       <div
         style={{
-          top: `${coordinates[1] - 0.5}%`,
-          left: `${coordinates[0] - 0.5}%`,
+          top: `${game.coordinates[1] - 0.5}%`,
+          left: `${game.coordinates[0] - 0.5}%`,
           display:
-            coordinates[0] === -1 || coordinates[1] === -1 || !game.isGameOn
+            game.coordinates[0] === -1 ||
+            game.coordinates[1] === -1 ||
+            !game.isGameOn
               ? 'none'
               : '',
         }}
@@ -66,6 +78,16 @@ export default function LevelImage({
         style={{ filter: game.isGameOn ? '' : 'blur(1.5rem)' }}
         className={`rounded-2xl mx-auto w-full`}
       />
+
+      <CharacterDropDown
+        img1={img1}
+        img2={img2}
+        img3={img3}
+        title1={title1}
+        title2={title2}
+        title3={title3}
+      />
+
       <button
         onClick={() => game.setIsGameOn(true)}
         style={{ display: game.isGameOn ? 'none' : '' }}
@@ -74,5 +96,82 @@ export default function LevelImage({
         Click to Play
       </button>
     </span>
+  );
+}
+
+function CharacterDropDown({
+  img1,
+  img2,
+  img3,
+  title1,
+  title2,
+  title3,
+}: {
+  img1: string;
+  img2: string;
+  img3: string;
+  title1: string;
+  title2: string;
+  title3: string;
+}) {
+  const game = useContext(GameContext);
+
+  return (
+    <ul
+      className='absolute bg-white flex flex-col gap-1 py-1 px-1 rounded-xl max-h-fit'
+      style={{
+        top: `${game.coordinates[1] + 2}%`,
+        left: `${game.coordinates[0] + 2}%`,
+        display:
+          game.coordinates[0] === -1 ||
+          game.coordinates[1] === -1 ||
+          !game.isGameOn
+            ? 'none'
+            : '',
+      }}
+    >
+      <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
+        <button
+          className='hover:cursor-pointer flex items-center gap-2'
+          onClick={() => game.setCoordinates([-1, -1])}
+        >
+          <img
+            className='rounded-lg max-h-12'
+            width={40}
+            src={img1}
+            alt='game character'
+          />
+          <p className='font-bold text-gray-600'>{title1}</p>
+        </button>
+      </li>
+      <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
+        <button
+          className='hover:cursor-pointer flex items-center gap-2'
+          onClick={() => game.setCoordinates([-1, -1])}
+        >
+          <img
+            className='rounded-lg max-h-12'
+            width={40}
+            src={img2}
+            alt='game character'
+          />
+          <p className='font-bold text-gray-600'>{title2}</p>
+        </button>
+      </li>
+      <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
+        <button
+          className='hover:cursor-pointer flex items-center gap-2'
+          onClick={() => game.setCoordinates([-1, -1])}
+        >
+          <img
+            className='rounded-lg max-h-12'
+            width={40}
+            src={img3}
+            alt='game character'
+          />
+          <p className='font-bold text-gray-600'>{title3}</p>
+        </button>
+      </li>
+    </ul>
   );
 }
