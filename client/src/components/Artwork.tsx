@@ -1,8 +1,8 @@
 import easyImage from '../assets/easy.webp';
 import mediumImg from '../assets/medium.webp';
 import hardImg from '../assets/hard.webp';
-import { useEffect, useState } from 'react';
-const env = import.meta.env;
+import { GameContext } from './App';
+import { useContext, useState } from 'react';
 
 export default function Artwork({
   currentImage,
@@ -11,8 +11,9 @@ export default function Artwork({
   currentImage: string;
   setCurrentImage: (val: string) => void;
 }) {
-  // Coordinates are measured in percentage so when display size changes they stay the same
+  // Coordinates of click are measured in percentage so when display size changes they stay the same
   const [coordinates, setCoordinates] = useState<number[]>([]);
+  const game = useContext(GameContext);
 
   // Gets coordinates of user click
   const getClickCoordinates = (
@@ -25,21 +26,6 @@ export default function Artwork({
 
     setCoordinates([x, y]);
   };
-
-  useEffect(() => {
-    if (
-      coordinates[0] > env.VITE_PIRATES_1_X_MIN &&
-      coordinates[0] < env.VITE_PIRATES_1_X_MAX &&
-      coordinates[1] > env.VITE_PIRATES_1_Y_MIN &&
-      coordinates[1] < env.VITE_PIRATES_1_Y_MAX
-    ) {
-      console.log('correct');
-      console.log(coordinates);
-    } else {
-      console.log('wrong');
-      console.log(coordinates);
-    }
-  });
 
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
@@ -55,8 +41,14 @@ export default function Artwork({
             onClick={(e) => getClickCoordinates(e)}
             alt='pirate vs alien'
             src={easyImage}
-            className={` rounded-2xl mx-auto w-full`}
+            className={`${game.isGameOn ? '' : 'blur-lg'} rounded-2xl mx-auto w-full`}
           />
+          <button
+            onClick={() => game.setIsGameOn(true)}
+            className={`hover:cursor-pointer hover:bg-blue-500 transition-colors min-h-fit min-w-fit text-sm bg-blue-400 font-bold md:text-lg rounded-3xl py-4 px-6 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  bottom-[50%] ${!game.isGameOn ? 'absolute' : 'hidden'}`}
+          >
+            Click to Play
+          </button>
         </span>
 
         <span

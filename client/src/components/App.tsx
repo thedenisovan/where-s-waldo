@@ -2,14 +2,8 @@ import Header from './Header';
 import Artwork from './Artwork';
 import RulesCard from './RulesCard';
 import LeaderBoards from './LeaderBoards';
-import { useState, createContext } from 'react';
-
-const GameContext = createContext({
-  isGameOn: false,
-  setIsGameOn: (val: boolean) => {
-    void val;
-  },
-});
+import { useState } from 'react';
+import GameContext from './context/GameContext';
 
 export default function App() {
   const [currentImage, setCurrentImage] = useState<string>('Pirates');
@@ -36,3 +30,5 @@ export default function App() {
     </div>
   );
 }
+
+export { GameContext };
