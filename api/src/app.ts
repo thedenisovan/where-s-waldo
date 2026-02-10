@@ -1,10 +1,13 @@
-function main() {
-  const name = 'Albert';
-  console.log('hello ' + name);
+import express from 'express';
+import 'dotenv/config';
 
-  return name;
-}
+const app = express();
 
-main();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // for forms
 
-export { main };
+app.get('/', (req, res) => {
+  res.send('hello world!');
+});
+
+export default app;
