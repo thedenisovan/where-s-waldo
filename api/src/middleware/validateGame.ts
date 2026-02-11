@@ -1,13 +1,16 @@
 import type { Request, Response, NextFunction } from 'express';
 
+// Validates that game starts with correct attributes
 function validateGame(req: Request, res: Response, next: NextFunction) {
-  const { name, recordsId } = req.body ?? {};
+  const { name, levelName } = req.body || {};
 
-  if (!name || !recordsId) {
-    return res
-      .status(400)
-      .json({ message: 'Provide req.body.name and req.body.recordsId value' });
-  }
+  if (
+    !name ||
+    !levelName ||
+    typeof name !== 'string' ||
+    typeof levelName !== 'string'
+  )
+    return res.status(400).json({ message: 'Provide req.body attributes.' });
 
   next();
 }

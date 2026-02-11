@@ -1,12 +1,11 @@
 import express from 'express';
-import 'dotenv/config';
-import pirates from './routes/pirates.js';
+import game from './routes/game.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for forms
 
-app.use('/', pirates);
+app.use('/', game);
 
 export default app;
