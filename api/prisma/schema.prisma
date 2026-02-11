@@ -33,6 +33,22 @@ model Records {
   id Int @id @default(autoincrement())
 
   attempts Attempt[]
+
+  level   Level @relation(fields: [levelId], references: [id])
+  levelId Int
+}
+
+model Level {
+  id Int @id @default(autoincrement())
+
+  name    LevelName
+  records Records[]
+}
+
+enum LevelName {
+  PIRATES
+  AIRPORT
+  LIBRARY
 }
 
 enum Status {
