@@ -41,7 +41,7 @@ model Records {
 model Level {
   id Int @id @default(autoincrement())
 
-  name    LevelName
+  name    LevelName @unique
   records Records[]
 }
 
