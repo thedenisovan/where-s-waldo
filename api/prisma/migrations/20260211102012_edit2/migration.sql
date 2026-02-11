@@ -1,0 +1,6 @@
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('ONGOING', 'COMPLETED', 'ABANDON');
+
+-- AlterTable
+ALTER TABLE "Attempt" ADD COLUMN     "status" "Status" NOT NULL DEFAULT 'ONGOING',
+ALTER COLUMN "clicks" SET DEFAULT 0;

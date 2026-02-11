@@ -20,9 +20,10 @@ model Attempt {
   startTime       BigInt // Will get ms in backend and do math to find attempt duration (startTime - endTime)
   endTime         BigInt
   attemptDuration BigInt
-  clicks          Int
+  clicks          Int      @default(0)
   score           Int
   attemptDate     DateTime @default(now())
+  status          Status   @default(ONGOING)
 
   records   Records? @relation(fields: [recordsId], references: [id])
   recordsId Int?
@@ -32,4 +33,10 @@ model Records {
   id Int @id @default(autoincrement())
 
   attempts Attempt[]
+}
+
+enum Status {
+  ONGOING
+  COMPLETED
+  ABANDON
 }
