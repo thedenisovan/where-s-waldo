@@ -25,24 +25,15 @@ model Attempt {
   attemptDate     DateTime @default(now())
   status          Status   @default(ONGOING)
 
-  records   Records? @relation(fields: [recordsId], references: [id])
-  recordsId Int?
+  records   Records @relation(fields: [recordsId], references: [id], onDelete: Cascade)
+  recordsId Int
 }
 
 model Records {
   id Int @id @default(autoincrement())
 
-  attempts Attempt[]
-
-  level   Level @relation(fields: [levelId], references: [id])
-  levelId Int
-}
-
-model Level {
-  id Int @id @default(autoincrement())
-
-  name    LevelName @unique
-  records Records[]
+  attempts  Attempt[]
+  levelName LevelName @unique
 }
 
 enum LevelName {
