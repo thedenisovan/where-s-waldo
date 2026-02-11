@@ -25,8 +25,8 @@ model Attempt {
   attemptDate     DateTime @default(now())
   status          Status   @default(ONGOING)
 
-  records   Records @relation(fields: [recordsId], references: [id], onDelete: Cascade)
-  recordsId Int
+  records   Records   @relation(fields: [levelName], references: [levelName], onDelete: Cascade)
+  levelName LevelName
 }
 
 model Records {
