@@ -12,3 +12,24 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Attempt {
+  id Int @id @default(autoincrement())
+
+  name            String
+  startTime       BigInt // Will get ms in backend and do math to find attempt duration (startTime - endTime)
+  endTime         BigInt
+  attemptDuration BigInt
+  clicks          Int
+  score           Int
+  attemptDate     DateTime @default(now())
+
+  records   Records? @relation(fields: [recordsId], references: [id])
+  recordsId Int?
+}
+
+model Records {
+  id Int @id @default(autoincrement())
+
+  attempts Attempt[]
+}
