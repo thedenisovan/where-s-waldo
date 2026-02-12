@@ -24,6 +24,9 @@ model Attempt {
   score           Int
   attemptDate     DateTime @default(now())
   charactersFound Int      @default(0)
+  charOneAlive    Boolean  @default(true)
+  charTwoAlive    Boolean  @default(true)
+  charThreeAlive  Boolean  @default(true)
   status          Status   @default(ONGOING)
 
   records   Records   @relation(fields: [levelName], references: [levelName], onDelete: Cascade)
