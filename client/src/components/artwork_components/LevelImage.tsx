@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GameContext } from '../App';
 import gameImages from '../../util.imports';
 
@@ -29,6 +29,27 @@ export default function LevelImage({
   title3: string;
 }) {
   const game = useContext(GameContext);
+  const [attemptId, setAttemptId] = useState<number | null>(null);
+
+  const startGame = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+
+    const response = await fetch('http://localhost:8080/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ levelName: gameLevel }),
+    });
+
+    if (!response.ok) throw new Error(`Response status: ${response.status}`);
+
+    const result = await response.json();
+
+    setAttemptId(result.attemptId);
+  };
 
   return (
     <span
@@ -80,6 +101,7 @@ export default function LevelImage({
       />
 
       <CharacterDropDown
+        attemptId={attemptId}
         img1={img1}
         img2={img2}
         img3={img3}
@@ -89,7 +111,10 @@ export default function LevelImage({
       />
 
       <button
-        onClick={() => game.setIsGameOn(true)}
+        onClick={(e) => {
+          game.setIsGameOn(true);
+          startGame(e);
+        }}
         style={{ display: game.isGameOn ? 'none' : '' }}
         className={`hover:cursor-pointer hover:bg-blue-500 absolute transition-colors min-h-fit min-w-fit text-sm bg-blue-400 font-bold md:text-lg rounded-3xl py-4 px-6 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  bottom-[50%] `}
       >
@@ -107,7 +132,9 @@ function CharacterDropDown({
   title1,
   title2,
   title3,
+  attemptId,
 }: {
+  attemptId: number | null;
   img1: string;
   img2: string;
   img3: string;
@@ -116,6 +143,40 @@ function CharacterDropDown({
   title3: string;
 }) {
   const game = useContext(GameContext);
+
+  const makeAttempt = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    characterId: number,
+  ) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:8080/attempt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          coordsX: game.coordinates[0],
+          coordsY: game.coordinates[1],
+          levelName: game.currentImage,
+          characterId,
+          attemptId,
+        }),
+      });
+
+      if (!response.ok)
+        throw new Error(`Error response status: ${response.status}`);
+
+      const result = await response.json();
+
+      console.log(result);
+    } catch (err) {
+      console.error(
+        `Error: ${err instanceof Error ? `${err.message}` : `${String(err)}`}`,
+      );
+    }
+  };
 
   return (
     <ul
@@ -136,7 +197,10 @@ function CharacterDropDown({
       <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
         <button
           className='hover:cursor-pointer flex items-center gap-2'
-          onClick={() => game.setCoordinates([-1, -1])}
+          onClick={(e) => {
+            makeAttempt(e, 1);
+            game.setCoordinates([-1, -1]);
+          }}
         >
           <img
             className='rounded-lg max-h-12'
@@ -150,7 +214,10 @@ function CharacterDropDown({
       <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
         <button
           className='hover:cursor-pointer flex items-center gap-2'
-          onClick={() => game.setCoordinates([-1, -1])}
+          onClick={(e) => {
+            makeAttempt(e, 2);
+            game.setCoordinates([-1, -1]);
+          }}
         >
           <img
             className='rounded-lg max-h-12'
@@ -164,7 +231,10 @@ function CharacterDropDown({
       <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
         <button
           className='hover:cursor-pointer flex items-center gap-2'
-          onClick={() => game.setCoordinates([-1, -1])}
+          onClick={(e) => {
+            makeAttempt(e, 3);
+            game.setCoordinates([-1, -1]);
+          }}
         >
           <img
             className='rounded-lg max-h-12'
