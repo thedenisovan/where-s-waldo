@@ -23,6 +23,7 @@ model Attempt {
   clicks          Int      @default(0)
   score           Int
   attemptDate     DateTime @default(now())
+  charactersFound Int      @default(0)
   status          Status   @default(ONGOING)
 
   records   Records   @relation(fields: [levelName], references: [levelName], onDelete: Cascade)
