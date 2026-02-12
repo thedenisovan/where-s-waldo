@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import validateAttempt from '../middleware/validateAttempt.js';
 import successfulAttempt from '../controllers/successfulAttempt.js';
-import registerAttempt from '../controllers/successfulAttempt.js';
+import registerAttempt from '../controllers/registerAttempt.js';
 
 const attempt = Router();
 

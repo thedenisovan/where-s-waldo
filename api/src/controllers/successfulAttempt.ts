@@ -33,7 +33,7 @@ async function successfulAttempt(
         where: { id: req.body.attemptId },
         data: {
           endTime: Date.now(),
-          attemptDuration: updatedAttempt.startTime - BigInt(Date.now()),
+          attemptDuration: BigInt(Date.now()) - updatedAttempt.startTime,
           status: 'COMPLETED',
         },
       });

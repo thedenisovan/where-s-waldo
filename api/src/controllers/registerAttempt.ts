@@ -7,15 +7,7 @@ async function registerAttempt(
   res: Response,
   next: NextFunction,
 ) {
-  const {
-    coordsXMin,
-    coordsXMax,
-    coordsYMin,
-    coordsYMax,
-    levelName,
-    characterId,
-    attemptId,
-  } = req.body;
+  const { coordsX, coordsY, levelName, characterId, attemptId } = req.body;
 
   const id: 1 | 2 | 3 = characterId;
   const level: 'PIRATES' | 'AIRPORT' | 'LIBRARY' = levelName.toUpperCase();
@@ -30,21 +22,25 @@ async function registerAttempt(
         .status(404)
         .json({ message: 'Attempt with given id not found in db' });
 
-    if (level && id) {
-      if (
-        attempt[`char${id}Alive`] &&
-        coordsXMin >= Number(process.env[`${level}_${id}_X_MIN`]!) &&
-        coordsXMax <= Number(process.env[`${level}_${id}_X_MAX`]!) &&
-        coordsYMin >= Number(process.env[`${level}_${id}_Y_MIN`]!) &&
-        coordsYMax <= Number(process.env[`${level}_${id}_Y_MAX`]!)
-      ) {
-        await prisma.attempt.update({
-          where: { id: attemptId },
-          data: { [`char${id}Alive`]: false },
-        });
-      }
+    if (
+      attempt[`char${id}Alive`] === true &&
+      coordsX >= Number(process.env[`${level}_${id}_X_MIN`]!) &&
+      coordsX <= Number(process.env[`${level}_${id}_X_MAX`]!) &&
+      coordsY >= Number(process.env[`${level}_${id}_Y_MIN`]!) &&
+      coordsY <= Number(process.env[`${level}_${id}_Y_MAX`]!)
+    ) {
+      console.log(coordsX);
+      console.log(coordsY);
+      await prisma.attempt.update({
+        where: { id: attemptId },
+        data: { [`char${id}Alive`]: false },
+      });
+
+      next();
       // If user did not make  guess in correct coordinates
     } else {
+      console.log(coordsX);
+      console.log(coordsY);
       await prisma.attempt.update({
         where: { id: attemptId },
         data: { clicks: attempt.clicks + 1 },
@@ -52,8 +48,6 @@ async function registerAttempt(
 
       return res.status(200).json({ message: 'MISS' });
     }
-
-    next();
   } catch {
     res.status(500).json({ message: 'Internal server/db error.' });
   }
