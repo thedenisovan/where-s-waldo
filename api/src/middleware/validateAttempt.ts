@@ -9,6 +9,7 @@ function validateAttempt(req: Request, res: Response, next: NextFunction) {
     coordsYMax,
     levelName,
     characterName,
+    attemptId,
   } = req.body ?? {};
 
   if (
@@ -17,9 +18,12 @@ function validateAttempt(req: Request, res: Response, next: NextFunction) {
     !coordsYMin ||
     !coordsYMax ||
     !levelName ||
-    !characterName
+    !characterName ||
+    !attemptId
   )
-    return res.status(400).json({ message: 'Provide req body values. ' });
+    return res.status(400).json({ message: 'Provide req body attributes. ' });
 
   next();
 }
+
+export default validateAttempt;

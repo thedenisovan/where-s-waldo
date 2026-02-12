@@ -6,4 +6,11 @@ async function registerAttempt(
   req: Request,
   res: Response,
   next: NextFunction,
-) {}
+) {
+  try {
+  } catch {
+    res.status(500).json({ message: 'Internal database/server error' });
+  }
+}
+
+export default registerAttempt;
