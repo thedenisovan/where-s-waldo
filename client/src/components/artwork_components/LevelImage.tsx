@@ -144,6 +144,7 @@ function CharacterDropDown({
 }) {
   const game = useContext(GameContext);
 
+  // Make guess attempt after user click coordinate and some character
   const makeAttempt = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     characterId: number,

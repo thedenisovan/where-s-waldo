@@ -22,15 +22,16 @@ async function registerAttempt(
         .status(404)
         .json({ message: 'Attempt with given id not found in db' });
 
-    if (
+    // If attempt with given id is completed - return.
+    if (attempt.status === 'COMPLETED')
+      return res.status(200).json({ message: 'COMPLETED' });
+    else if (
       attempt[`char${id}Alive`] === true &&
       coordsX >= Number(process.env[`${level}_${id}_X_MIN`]!) &&
       coordsX <= Number(process.env[`${level}_${id}_X_MAX`]!) &&
       coordsY >= Number(process.env[`${level}_${id}_Y_MIN`]!) &&
       coordsY <= Number(process.env[`${level}_${id}_Y_MAX`]!)
     ) {
-      console.log(coordsX);
-      console.log(coordsY);
       await prisma.attempt.update({
         where: { id: attemptId },
         data: { [`char${id}Alive`]: false },
@@ -39,8 +40,6 @@ async function registerAttempt(
       next();
       // If user did not make  guess in correct coordinates
     } else {
-      console.log(coordsX);
-      console.log(coordsY);
       await prisma.attempt.update({
         where: { id: attemptId },
         data: { clicks: attempt.clicks + 1 },
