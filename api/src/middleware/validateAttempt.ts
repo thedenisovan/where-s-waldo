@@ -8,7 +8,7 @@ function validateAttempt(req: Request, res: Response, next: NextFunction) {
     coordsYMin,
     coordsYMax,
     levelName,
-    characterName,
+    characterId,
     attemptId,
   } = req.body ?? {};
 
@@ -18,7 +18,7 @@ function validateAttempt(req: Request, res: Response, next: NextFunction) {
     !coordsYMin ||
     !coordsYMax ||
     !levelName ||
-    !characterName ||
+    !characterId ||
     !attemptId
   )
     return res.status(400).json({ message: 'Provide req body attributes. ' });

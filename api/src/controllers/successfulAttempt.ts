@@ -3,7 +3,7 @@ import { prisma } from '../../lib/prisma.js';
 import { Request, Response, NextFunction } from 'express';
 
 // If user did found character in correct coords this mw is being called.
-async function registerAttempt(
+async function successfulAttempt(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -47,4 +47,4 @@ async function registerAttempt(
   }
 }
 
-export default registerAttempt;
+export default successfulAttempt;

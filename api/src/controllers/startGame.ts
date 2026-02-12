@@ -11,7 +11,7 @@ async function startGame(req: Request, res: Response) {
         name: '',
         attemptDuration: 0,
         score: 0,
-        levelName: req.body.levelName.toUppercase(),
+        levelName: req.body.levelName.toUpperCase(),
       },
     });
 
