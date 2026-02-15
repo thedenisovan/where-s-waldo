@@ -10,12 +10,15 @@ export default function EliminationIndicators() {
       <div style={{ display: game.currentImage !== 'Pirates' ? 'none' : '' }}>
         <div className={`${!game.aliveCharacters[0] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='13%' />
+          <EliminatedPlayerCross right='52%' top='25%' />
         </div>
         <div className={`${!game.aliveCharacters[1] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='3%' />
+          <EliminatedPlayerCross right='19%' top='32%' />
         </div>
         <div className={`${!game.aliveCharacters[2] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='22%' />
+          <EliminatedPlayerCross right='80%' top='35%' />
         </div>
       </div>
 
@@ -23,12 +26,15 @@ export default function EliminationIndicators() {
       <div style={{ display: game.currentImage !== 'Airport' ? 'none' : '' }}>
         <div className={`${!game.aliveCharacters[1] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='12%' />
+          <EliminatedPlayerCross right='83%' top='58%' />
         </div>
         <div className={`${!game.aliveCharacters[0] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='7%' />
+          <EliminatedPlayerCross right='29%' top='27%' />
         </div>
         <div className={`${!game.aliveCharacters[2] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='16.5%' />
+          <EliminatedPlayerCross right='95.5%' top='5%' />
         </div>
       </div>
 
@@ -36,12 +42,15 @@ export default function EliminationIndicators() {
       <div style={{ display: game.currentImage !== 'Library' ? 'none' : '' }}>
         <div className={`${!game.aliveCharacters[1] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='12.5%' />
+          <EliminatedPlayerCross right='74%' top='51%' />
         </div>
         <div className={`${!game.aliveCharacters[2] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='3.5%' />
+          <EliminatedPlayerCross right='4%' top='18%' />
         </div>
         <div className={`${!game.aliveCharacters[0] ? '' : 'hidden'}`}>
           <EliminatedPlayerCross right='21.5%' />
+          <EliminatedPlayerCross right='60.5%' top='-3%' />
         </div>
       </div>
     </>

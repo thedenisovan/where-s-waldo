@@ -30,12 +30,12 @@ export default function Header() {
           downloads no login.
         </p>
         <div className='flex gap-2'>
-          <button
+          {/* <button
             disabled
             className={`disabled:text-gray-400 hover:cursor-not-allowed transition-colors border max-w-fit border-gray-600 flex gap-3 items-center rounded-2xl bg-black/40 font-medium py-1 px-5 text-white`}
           >
             <p>Hint (+20s)</p>
-          </button>
+          </button> */}
           <button
             onClick={() => {
               game.setIsGameOn(false);

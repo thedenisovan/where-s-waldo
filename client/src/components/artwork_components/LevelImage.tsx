@@ -186,9 +186,11 @@ function CharacterDropDown({
 }) {
   const game = useContext(GameContext);
 
+  console.log(game.aliveCharacters);
+
   return (
     <ul
-      className='absolute bg-white flex flex-col gap-1 py-1 px-1 rounded-xl max-h-fit'
+      className={`absolute bg-white flex flex-col gap-1 py-1 px-1 rounded-xl max-h-fit`}
       style={{
         // Conditionals so if user clicks on right/left/top/bottom side of the image the
         // select element appears on opposite side
@@ -197,12 +199,26 @@ function CharacterDropDown({
         display:
           game.coordinates[0] === -1 ||
           game.coordinates[1] === -1 ||
-          !game.isGameOn
+          !game.isGameOn ||
+          (!game.aliveCharacters[0] &&
+            !game.aliveCharacters[1] &&
+            !game.aliveCharacters[2])
             ? 'none'
             : '',
       }}
     >
-      <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
+      <li
+        style={{
+          display:
+            (game.currentImage === 'Pirates' ||
+              game.currentImage === 'Airport' ||
+              game.currentImage === 'Library') &&
+            game.aliveCharacters[0]
+              ? ''
+              : 'none',
+        }}
+        className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
+      >
         <button
           className='hover:cursor-pointer flex items-center gap-2'
           onClick={(e) => {
@@ -219,7 +235,18 @@ function CharacterDropDown({
           <p className='font-bold text-gray-600'>{title1}</p>
         </button>
       </li>
-      <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
+      <li
+        style={{
+          display:
+            (game.currentImage === 'Pirates' ||
+              game.currentImage === 'Airport' ||
+              game.currentImage === 'Library') &&
+            game.aliveCharacters[1]
+              ? ''
+              : 'none',
+        }}
+        className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
+      >
         <button
           className='hover:cursor-pointer flex items-center gap-2'
           onClick={(e) => {
@@ -236,7 +263,18 @@ function CharacterDropDown({
           <p className='font-bold text-gray-600'>{title2}</p>
         </button>
       </li>
-      <li className='hover:bg-gray-200 transition-colors rounded-r-xl mr-1'>
+      <li
+        style={{
+          display:
+            (game.currentImage === 'Pirates' ||
+              game.currentImage === 'Airport' ||
+              game.currentImage === 'Library') &&
+            game.aliveCharacters[2]
+              ? ''
+              : 'none',
+        }}
+        className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
+      >
         <button
           className='hover:cursor-pointer flex items-center gap-2'
           onClick={(e) => {
