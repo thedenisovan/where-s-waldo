@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext } from 'react';
 
+export type Attempt = {
+  name: string;
+  attemptDuration: string; // assuming this is the "time"
+  clicks: number;
+  score: number;
+  attemptDate: string;
+  levelName: string;
+};
+
 const GameContext = createContext({
   isGameOn: false,
   setIsGameOn: (_val: boolean) => {},
@@ -16,6 +25,17 @@ const GameContext = createContext({
   resetGame: () => {},
   isGameWon: false,
   setGameWon: (_val: boolean) => {},
+  leaderboards: [
+    {
+      name: '',
+      attemptDuration: '',
+      clicks: 0,
+      score: 0,
+      attemptDate: '',
+      levelName: '',
+    },
+  ],
+  setLeaderBoards: (_attempts: Attempt[]) => {},
 });
 
 export default GameContext;

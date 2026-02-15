@@ -1,8 +1,13 @@
+import { useContext } from 'react';
+import { GameContext } from './App';
+
 export default function LeaderBoards({
   currentImage,
 }: {
   currentImage: string;
 }) {
+  const game = useContext(GameContext);
+
   return (
     <div
       id='leaderboards'
@@ -31,11 +36,29 @@ export default function LeaderBoards({
           <tr className='text-gray-400 text-xs md:text-md border-b border-gray-700'>
             <th className='pb-2'>RANK</th>
             <th className='pb-2'>NAME</th>
-            <th className='pb-2'>TIME</th>
+            <th className='pb-2'>
+              TIME (<span className='text-[10px]'>SECONDS</span>)
+            </th>
             <th className='pb-2'>CLICKS</th>
-            <th className='pb-2'>SCORE</th>
             <th className='pb-2'>DATE</th>
           </tr>
+          {game.leaderboards.map(
+            (g, idx) =>
+              // Display only highest scores of current level
+              g.levelName === game.currentImage.toUpperCase() && (
+                <tr className='text-center' key={g.name + '-' + idx}>
+                  <td className='text-white'>{idx + 1}</td>
+                  <td>{g.name}</td>
+                  <td>{(+g.attemptDuration / 1000).toFixed(1)}</td>
+                  <td>{g.clicks}</td>
+                  <td>
+                    {g.attemptDate.split('-')[2][0]}
+                    {g.attemptDate.split('-')[2][1]}/
+                    {g.attemptDate.split('-')[1]}/{g.attemptDate.split('-')[0]}
+                  </td>
+                </tr>
+              ),
+          )}
         </thead>
       </table>
     </div>

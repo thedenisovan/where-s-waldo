@@ -2,8 +2,10 @@ import Header from './Header';
 import Artwork from './Artwork';
 import RulesCard from './RulesCard';
 import LeaderBoards from './LeaderBoards';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GameContext from './context/GameContext';
+import type { Attempt } from './context/GameContext';
+import { getRecords } from './apiCalls/completeGame';
 
 export default function App() {
   const [currentImage, setCurrentImage] = useState<string>('Pirates');
@@ -12,12 +14,21 @@ export default function App() {
   const [coordinates, setCoordinates] = useState<number[]>([-1, -1]);
   const [clicks, setClicks] = useState<number>(0);
   const [isGameWon, setGameWon] = useState<boolean>(false);
+  const [leaderboards, setLeaderBoards] = useState<Attempt[]>([]);
   // Array which stores info about which characters are still alive in game to display it on screen
   const [aliveCharacters, setAliveCharacters] = useState<boolean[]>([
     true,
     true,
     true,
   ]);
+
+  useEffect(() => {
+    const updateLeaderboards = () => {
+      getRecords(setLeaderBoards);
+    };
+
+    updateLeaderboards();
+  }, []);
 
   const resetGame = () => {
     setIsGameOn(false);
@@ -35,6 +46,8 @@ export default function App() {
         <div className='h-50 w-50 right-[50%] bottom-0 absolute bg-gray-300 blur-[240px]'></div>
         <GameContext.Provider
           value={{
+            leaderboards,
+            setLeaderBoards,
             setGameWon,
             isGameWon,
             clicks,
@@ -52,11 +65,11 @@ export default function App() {
         >
           <Header />
           <Artwork />
+          <section className='grid md:grid-cols-2 mt-10 gap-10'>
+            <RulesCard />
+            <LeaderBoards currentImage={currentImage} />
+          </section>
         </GameContext.Provider>
-        <section className='grid md:grid-cols-2 mt-10 gap-10'>
-          <RulesCard />
-          <LeaderBoards currentImage={currentImage} />
-        </section>
       </main>
     </div>
   );

@@ -4,6 +4,7 @@ import gameImages from '../../util.imports';
 import EliminationIndicators from './EliminationIndicator';
 import startGame from '../apiCalls/startGame';
 import completeGame from '../apiCalls/completeGame';
+import { getRecords } from '../apiCalls/completeGame';
 
 // Based on current level/image state show or hide this image
 export default function LevelImage({
@@ -183,6 +184,7 @@ export default function LevelImage({
         <button
           onClick={(e) => {
             completeGame(attemptId, e, name);
+            getRecords(game.setLeaderBoards);
             game.resetGame();
           }}
           className='
