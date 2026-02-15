@@ -38,9 +38,7 @@ export default function Header() {
           </button> */}
           <button
             onClick={() => {
-              game.setIsGameOn(false);
-              game.setCoordinates([-1, -1]);
-              game.setAliveCharacters([true, true, true]);
+              game.resetGame();
             }}
             className='hover:cursor-pointer hover:bg-gray-800/60 transition-colors border max-w-fit border-gray-600 flex gap-3 items-center rounded-2xl bg-black/40 font-medium py-1 px-5 text-white'
           >

@@ -19,8 +19,6 @@ export default function Artwork() {
     game.setCoordinates([x, y]);
   };
 
-  console.log(game.coordinates);
-
   return (
     <section className='border relative z-10! border-gray-800 rounded-2xl mt-3 shadow-2xl'>
       <ArtworkHeader />

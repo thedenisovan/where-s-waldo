@@ -186,8 +186,6 @@ function CharacterDropDown({
 }) {
   const game = useContext(GameContext);
 
-  console.log(game.aliveCharacters);
-
   return (
     <ul
       className={`absolute bg-white flex flex-col gap-1 py-1 px-1 rounded-xl max-h-fit`}
@@ -218,6 +216,7 @@ function CharacterDropDown({
           onClick={(e) => {
             makeAttempt(e, 1);
             game.setCoordinates([-1, -1]);
+            game.setClicks(game.clicks + 1);
           }}
         >
           <img
@@ -240,6 +239,7 @@ function CharacterDropDown({
           onClick={(e) => {
             makeAttempt(e, 2);
             game.setCoordinates([-1, -1]);
+            game.setClicks(game.clicks + 1);
           }}
         >
           <img
@@ -262,6 +262,7 @@ function CharacterDropDown({
           onClick={(e) => {
             makeAttempt(e, 3);
             game.setCoordinates([-1, -1]);
+            game.setClicks(game.clicks + 1);
           }}
         >
           <img

@@ -1,9 +1,39 @@
 import { GameContext } from '../App';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 // Artwork component header element
 export default function ArtworkHeader() {
   const game = useContext(GameContext);
+  const [timeMinutes, setTimeMinutes] = useState<number>(0);
+  const [timeSeconds, setTimeSeconds] = useState<number>(0);
+
+  useEffect(() => {
+    const resetTimer = () => {
+      setTimeSeconds(0);
+      setTimeMinutes(0);
+    };
+    const updateTimer = () => {
+      setTimeSeconds(0);
+      setTimeMinutes((m) => m + 1);
+    };
+    let timeInterval: number;
+
+    if (timeSeconds >= 60) {
+      updateTimer();
+    }
+
+    if (game.isGameOn) {
+      timeInterval = setInterval(
+        () => setTimeSeconds((prev) => prev + 1),
+        1000,
+      );
+    } else {
+      resetTimer();
+    }
+
+    // Each rerender creates new time interval so it must be cleared
+    return () => clearInterval(timeInterval);
+  }, [game.isGameOn, timeSeconds]);
 
   return (
     <header className='flex justify-between items-center px-3 py-2 bg-gray-300/10 rounded-t-2xl'>
@@ -38,7 +68,10 @@ export default function ArtworkHeader() {
           </svg>
           <div>
             <p className='text-gray-300 text-xs'>TIME</p>
-            <p className='text-white'>0:00</p>
+            <p className='text-white'>
+              {timeMinutes}:
+              <span>{`${timeSeconds >= 10 ? timeSeconds : '0' + timeSeconds}`}</span>
+            </p>
           </div>
         </div>
 
@@ -53,8 +86,8 @@ export default function ArtworkHeader() {
             <path d='M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880t156 31.5Q709-817 763-763t85.5 127Q880-563 880-480t-31.5 156Q817-251 763-197t-127 85.5Q563-80 480-80t-156-31.5ZM707-253q93-93 93-227t-93-227q-93-93-227-93t-227 93q-93 93-93 227t93 227q93 93 227 93t227-93Zm-397-57q-70-70-70-170t70-170q70-70 170-70t170 70q70 70 70 170t-70 170q-70 70-170 70t-170-70Zm283-57q47-47 47-113t-47-113q-47-47-113-47t-113 47q-47 47-47 113t47 113q47 47 113 47t113-47Zm-169.5-56.5Q400-447 400-480t23.5-56.5Q447-560 480-560t56.5 23.5Q560-513 560-480t-23.5 56.5Q513-400 480-400t-56.5-23.5Z' />
           </svg>
           <div>
-            <p className='text-gray-300 text-xs'>ATTEMPTS</p>
-            <p className='text-white'>0</p>
+            <p className='text-gray-300 text-xs'>CLICKS</p>
+            <p className='text-white'>{game.clicks}</p>
           </div>
         </div>
       </div>
@@ -78,10 +111,8 @@ function ArtworkSelectButton({ gameLevel }: { gameLevel: string }) {
     <li>
       <button
         onClick={() => {
-          game.setIsGameOn(false);
           game.setCurrentImage(gameLevel);
-          game.setCoordinates([-1, -1]);
-          game.setAliveCharacters([true, true, true]);
+          game.resetGame();
         }}
         className='rounded-xl px-2 text-sm text-gray-300 hover:bg-gray-200 hover:text-black transition cursor-pointer'
         style={{

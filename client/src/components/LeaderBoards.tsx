@@ -32,7 +32,7 @@ export default function LeaderBoards({
             <th className='pb-2'>RANK</th>
             <th className='pb-2'>NAME</th>
             <th className='pb-2'>TIME</th>
-            <th className='pb-2'>ATTEMPTS</th>
+            <th className='pb-2'>CLICKS</th>
             <th className='pb-2'>SCORE</th>
             <th className='pb-2'>DATE</th>
           </tr>

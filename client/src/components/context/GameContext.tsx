@@ -11,6 +11,9 @@ const GameContext = createContext({
   setCoordinates: (_coordinates: number[]) => {},
   aliveCharacters: [false, false, false],
   setAliveCharacters: ([...vals]: boolean[]) => {},
+  clicks: 0,
+  setClicks: (_val: number) => {},
+  resetGame: () => {},
 });
 
 export default GameContext;

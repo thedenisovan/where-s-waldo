@@ -16,6 +16,14 @@ export default function App() {
     true,
     true,
   ]);
+  const [clicks, setClicks] = useState<number>(0);
+
+  const resetGame = () => {
+    setIsGameOn(false);
+    setCoordinates([-1, -1]);
+    setAliveCharacters([true, true, true]);
+    setClicks(0);
+  };
 
   return (
     <div className='min-h-screen bg-black'>
@@ -25,6 +33,8 @@ export default function App() {
         <div className='h-50 w-50 right-[50%] bottom-0 absolute bg-gray-300 blur-[240px]'></div>
         <GameContext.Provider
           value={{
+            clicks,
+            setClicks,
             isGameOn,
             setIsGameOn,
             currentImage,
@@ -33,6 +43,7 @@ export default function App() {
             setCoordinates,
             aliveCharacters,
             setAliveCharacters,
+            resetGame,
           }}
         >
           <Header />
