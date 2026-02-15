@@ -34,7 +34,6 @@ export default function LeaderBoards({
       <table className='w-full'>
         <thead aria-label='leaderboards table'>
           <tr className='text-gray-400 text-xs md:text-md border-b border-gray-700'>
-            <th className='pb-2'>RANK</th>
             <th className='pb-2'>NAME</th>
             <th className='pb-2'>
               TIME (<span className='text-[10px]'>SECONDS</span>)
@@ -46,8 +45,8 @@ export default function LeaderBoards({
         <tbody>
           {game.leaderboards.map(
             (g, idx) =>
-              // Display only highest scores of current level
-              idx <= 12 &&
+              // Display only scores of current game level
+              idx <= 10 &&
               g.name.length > 3 &&
               g.name.length < 10 &&
               g.levelName === game.currentImage.toUpperCase() && (
@@ -55,7 +54,6 @@ export default function LeaderBoards({
                   className='text-center'
                   key={g.name + '-' + g.attemptDuration}
                 >
-                  <td className='text-white'>{idx + 1}</td>
                   <td>{g.name}</td>
                   <td>{(+g.attemptDuration / 1000).toFixed(1)}</td>
                   <td>{g.clicks}</td>
