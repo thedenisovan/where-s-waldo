@@ -34,7 +34,14 @@ async function successfulAttempt(req: Request, res: Response) {
         },
       });
 
-      return res.status(200).json({ message: 'COMPLETED' });
+      return res
+        .status(200)
+        .json({
+          message: 'COMPLETED',
+          char1: updatedAttempt.char1Alive,
+          char2: updatedAttempt.char2Alive,
+          char3: updatedAttempt.char3Alive,
+        });
     }
 
     return res.status(200).json({
