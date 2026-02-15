@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import { GameContext } from '../App';
 import gameImages from '../../util.imports';
 import EliminationIndicators from './EliminationIndicator';
+import startGame from '../apiCalls/startGame';
+import completeGame from '../apiCalls/completeGame';
 
 // Based on current level/image state show or hide this image
 export default function LevelImage({
@@ -31,26 +33,7 @@ export default function LevelImage({
 }) {
   const game = useContext(GameContext);
   const [attemptId, setAttemptId] = useState<number | null>(null);
-
-  const startGame = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-
-    const response = await fetch('http://localhost:8080/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ levelName: gameLevel }),
-    });
-
-    if (!response.ok) throw new Error(`Response status: ${response.status}`);
-
-    const result = await response.json();
-
-    setAttemptId(result.attemptId);
-  };
+  const [name, setName] = useState<string>('');
 
   // Make guess attempt after user click coordinate and some character
   const makeAttempt = async (
@@ -79,8 +62,13 @@ export default function LevelImage({
 
       const result = await response.json();
 
-      if (result.char1 !== undefined)
+      if (result.char1 !== undefined) {
         game.setAliveCharacters([result.char1, result.char2, result.char3]);
+
+        if (result.message === 'COMPLETED') {
+          game.setGameWon(true);
+        }
+      }
     } catch (err) {
       console.error(
         `Error: ${err instanceof Error ? `${err.message}` : `${String(err)}`}`,
@@ -117,7 +105,7 @@ export default function LevelImage({
         src={gameImages.hardCharacters}
         className='absolute w-[25%] right-0'
         style={{
-          filter: game.isGameOn ? '' : 'blur(1.5rem)',
+          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
           display: game.currentImage === 'Library' ? '' : 'none',
         }}
       />
@@ -126,7 +114,7 @@ export default function LevelImage({
         src={gameImages.easyCharacters}
         className='absolute w-[25%] right-0'
         style={{
-          filter: game.isGameOn ? '' : 'blur(1.5rem)',
+          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
           display: game.currentImage === 'Pirates' ? '' : 'none',
         }}
       />
@@ -135,7 +123,9 @@ export default function LevelImage({
         onClick={(e) => getClickCoordinates(e)}
         alt={alt}
         src={src}
-        style={{ filter: game.isGameOn ? '' : 'blur(1.5rem)' }}
+        style={{
+          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
+        }}
         className={`rounded-2xl mx-auto w-full`}
       />
 
@@ -149,16 +139,63 @@ export default function LevelImage({
         makeAttempt={makeAttempt}
       />
 
+      {/* Start game button */}
       <button
         onClick={(e) => {
           game.setIsGameOn(true);
-          startGame(e);
+          startGame(setAttemptId, e, gameLevel);
         }}
-        style={{ display: game.isGameOn ? 'none' : '' }}
+        style={{ display: game.isGameOn || game.isGameWon ? 'none' : '' }}
         className={`hover:cursor-pointer hover:bg-blue-500 absolute transition-colors min-h-fit min-w-fit text-sm bg-blue-400 font-bold md:text-lg rounded-3xl py-4 px-6 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]  bottom-[50%] `}
       >
         Click to Play
       </button>
+
+      {/* Winner data form */}
+      <form
+        style={{ display: !game.isGameWon ? 'none' : '' }}
+        className='
+    absolute flex flex-col gap-3
+    translate-[50%] top-[10%] right-[50%]
+    bg-black/70 backdrop-blur-md
+    p-6 rounded-xl shadow-xl
+    w-72
+  '
+      >
+        <label className='text-white text-sm font-medium' htmlFor='name'>
+          Name
+        </label>
+
+        <input
+          className='
+      bg-white rounded-lg px-3 py-2
+      outline-none
+      focus:ring-2 focus:ring-blue-500
+      transition
+    '
+          type='text'
+          id='name'
+          name='name'
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+
+        <button
+          onClick={(e) => {
+            completeGame(attemptId, e, name);
+            game.resetGame();
+          }}
+          className='
+      text-white bg-blue-600
+      rounded-lg py-2
+      hover:bg-blue-700
+      active:scale-95
+      transition
+    '
+        >
+          Submit
+        </button>
+      </form>
     </span>
   );
 }

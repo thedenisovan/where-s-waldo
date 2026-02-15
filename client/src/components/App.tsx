@@ -10,19 +10,21 @@ export default function App() {
   const [isGameOn, setIsGameOn] = useState<boolean>(false);
   // Coordinates of click are measured in percentage so when display size changes they stay the same
   const [coordinates, setCoordinates] = useState<number[]>([-1, -1]);
+  const [clicks, setClicks] = useState<number>(0);
+  const [isGameWon, setGameWon] = useState<boolean>(false);
   // Array which stores info about which characters are still alive in game to display it on screen
   const [aliveCharacters, setAliveCharacters] = useState<boolean[]>([
     true,
     true,
     true,
   ]);
-  const [clicks, setClicks] = useState<number>(0);
 
   const resetGame = () => {
     setIsGameOn(false);
     setCoordinates([-1, -1]);
     setAliveCharacters([true, true, true]);
     setClicks(0);
+    setGameWon(false);
   };
 
   return (
@@ -33,6 +35,8 @@ export default function App() {
         <div className='h-50 w-50 right-[50%] bottom-0 absolute bg-gray-300 blur-[240px]'></div>
         <GameContext.Provider
           value={{
+            setGameWon,
+            isGameWon,
             clicks,
             setClicks,
             isGameOn,

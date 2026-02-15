@@ -5,7 +5,7 @@ export default function EliminationIndicators() {
   const game = useContext(GameContext);
 
   return (
-    <>
+    <div style={{ display: !game.isGameOn || game.isGameWon ? 'none' : '' }}>
       {/* Elimination indicator for pirates level */}
       <div style={{ display: game.currentImage !== 'Pirates' ? 'none' : '' }}>
         <div className={`${!game.aliveCharacters[0] ? '' : 'hidden'}`}>
@@ -53,7 +53,7 @@ export default function EliminationIndicators() {
           <EliminatedPlayerCross right='60.5%' top='-3%' />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

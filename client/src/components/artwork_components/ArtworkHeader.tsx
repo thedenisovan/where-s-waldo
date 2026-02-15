@@ -22,18 +22,19 @@ export default function ArtworkHeader() {
       updateTimer();
     }
 
-    if (game.isGameOn) {
+    if (game.isGameOn && !game.isGameWon) {
       timeInterval = setInterval(
         () => setTimeSeconds((prev) => prev + 1),
         1000,
       );
     } else {
       resetTimer();
+      game.setClicks(0);
     }
 
     // Each rerender creates new time interval so it must be cleared
     return () => clearInterval(timeInterval);
-  }, [game.isGameOn, timeSeconds]);
+  }, [timeSeconds, game]);
 
   return (
     <header className='flex justify-between items-center px-3 py-2 bg-gray-300/10 rounded-t-2xl'>
