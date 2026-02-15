@@ -209,13 +209,7 @@ function CharacterDropDown({
     >
       <li
         style={{
-          display:
-            (game.currentImage === 'Pirates' ||
-              game.currentImage === 'Airport' ||
-              game.currentImage === 'Library') &&
-            game.aliveCharacters[0]
-              ? ''
-              : 'none',
+          display: game.aliveCharacters[0] ? '' : 'none',
         }}
         className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
       >
@@ -237,13 +231,7 @@ function CharacterDropDown({
       </li>
       <li
         style={{
-          display:
-            (game.currentImage === 'Pirates' ||
-              game.currentImage === 'Airport' ||
-              game.currentImage === 'Library') &&
-            game.aliveCharacters[1]
-              ? ''
-              : 'none',
+          display: game.aliveCharacters[1] ? '' : 'none',
         }}
         className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
       >
@@ -265,13 +253,7 @@ function CharacterDropDown({
       </li>
       <li
         style={{
-          display:
-            (game.currentImage === 'Pirates' ||
-              game.currentImage === 'Airport' ||
-              game.currentImage === 'Library') &&
-            game.aliveCharacters[2]
-              ? ''
-              : 'none',
+          display: game.aliveCharacters[2] ? '' : 'none',
         }}
         className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
       >
