@@ -70,7 +70,7 @@ export default function ArtworkHeader() {
   );
 }
 
-// Switch between different artworks to play wheres aldo
+// Switch between different artworks to play wheres waldo
 function ArtworkSelectButton({ gameLevel }: { gameLevel: string }) {
   const game = useContext(GameContext);
 
