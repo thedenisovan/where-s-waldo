@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { GameContext } from '../App';
 import gameImages from '../../util.imports';
+import EliminationIndicators from './EliminationIndicator';
 
 // Based on current level/image state show or hide this image
 export default function LevelImage({
@@ -30,12 +31,6 @@ export default function LevelImage({
 }) {
   const game = useContext(GameContext);
   const [attemptId, setAttemptId] = useState<number | null>(null);
-  // Array which stores info about which characters are still alive in game to display it on screen
-  const [aliveCharacters, setAliveCharacters] = useState<boolean[]>([
-    true,
-    true,
-    true,
-  ]);
 
   const startGame = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -85,15 +80,13 @@ export default function LevelImage({
       const result = await response.json();
 
       if (result.char1 !== undefined)
-        setAliveCharacters([result.char1, result.char2, result.char3]);
+        game.setAliveCharacters([result.char1, result.char2, result.char3]);
     } catch (err) {
       console.error(
         `Error: ${err instanceof Error ? `${err.message}` : `${String(err)}`}`,
       );
     }
   };
-
-  console.log(aliveCharacters);
 
   return (
     <span
@@ -117,44 +110,7 @@ export default function LevelImage({
         className=' bg-green-600 animate-pulse rounded-full absolute w-3 h-3'
       ></div>
 
-      {/* Elimination indicator for pirates level */}
-      <div style={{ display: game.currentImage !== 'Pirates' ? 'none' : '' }}>
-        <div className={`${!aliveCharacters[0] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='13%' />
-        </div>
-        <div className={`${!aliveCharacters[1] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='3%' />
-        </div>
-        <div className={`${!aliveCharacters[2] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='22%' />
-        </div>
-      </div>
-
-      {/* Elimination indicator for Airport level */}
-      <div style={{ display: game.currentImage !== 'Airport' ? 'none' : '' }}>
-        <div className={`${!aliveCharacters[1] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='12%' />
-        </div>
-        <div className={`${!aliveCharacters[0] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='7%' />
-        </div>
-        <div className={`${!aliveCharacters[2] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='16.5%' />
-        </div>
-      </div>
-
-      {/* Elimination indicator for Library level */}
-      <div style={{ display: game.currentImage !== 'Library' ? 'none' : '' }}>
-        <div className={`${!aliveCharacters[1] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='12.5%' />
-        </div>
-        <div className={`${!aliveCharacters[2] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='3.5%' />
-        </div>
-        <div className={`${!aliveCharacters[0] ? '' : 'hidden'}`}>
-          <EliminatedPlayerCross right='21.5%' />
-        </div>
-      </div>
+      <EliminationIndicators />
 
       {/* This image is only being displayed on hardest game level */}
       <img
@@ -298,19 +254,5 @@ function CharacterDropDown({
         </button>
       </li>
     </ul>
-  );
-}
-
-function EliminatedPlayerCross({ right }: { right: string }) {
-  const game = useContext(GameContext);
-
-  return (
-    <div
-      style={{ right: right }}
-      className={`absolute z-2 ${!game.isGameOn ? 'blur-2xl' : ''} -top-3`}
-    >
-      <div className='rotate-45 absolute  w-1 h-24 bg-red-500'></div>
-      <div className='rotate-135 absolute w-1 h-24 bg-red-500'></div>
-    </div>
   );
 }

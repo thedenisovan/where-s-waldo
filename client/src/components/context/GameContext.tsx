@@ -9,6 +9,8 @@ const GameContext = createContext({
   // If coordinates are -1 and -1 then game is not on
   coordinates: [-1, -1],
   setCoordinates: (_coordinates: number[]) => {},
+  aliveCharacters: [false, false, false],
+  setAliveCharacters: ([...vals]: boolean[]) => {},
 });
 
 export default GameContext;

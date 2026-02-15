@@ -10,6 +10,12 @@ export default function App() {
   const [isGameOn, setIsGameOn] = useState<boolean>(false);
   // Coordinates of click are measured in percentage so when display size changes they stay the same
   const [coordinates, setCoordinates] = useState<number[]>([-1, -1]);
+  // Array which stores info about which characters are still alive in game to display it on screen
+  const [aliveCharacters, setAliveCharacters] = useState<boolean[]>([
+    true,
+    true,
+    true,
+  ]);
 
   return (
     <div className='min-h-screen bg-black'>
@@ -25,6 +31,8 @@ export default function App() {
             setCurrentImage,
             coordinates,
             setCoordinates,
+            aliveCharacters,
+            setAliveCharacters,
           }}
         >
           <Header />

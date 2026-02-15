@@ -81,6 +81,7 @@ function ArtworkSelectButton({ gameLevel }: { gameLevel: string }) {
           game.setIsGameOn(false);
           game.setCurrentImage(gameLevel);
           game.setCoordinates([-1, -1]);
+          game.setAliveCharacters([true, true, true]);
         }}
         className='rounded-xl px-2 text-sm text-gray-300 hover:bg-gray-200 hover:text-black transition cursor-pointer'
         style={{
