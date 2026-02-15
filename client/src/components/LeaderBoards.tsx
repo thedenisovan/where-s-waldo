@@ -42,11 +42,19 @@ export default function LeaderBoards({
             <th className='pb-2'>CLICKS</th>
             <th className='pb-2'>DATE</th>
           </tr>
+        </thead>
+        <tbody>
           {game.leaderboards.map(
             (g, idx) =>
               // Display only highest scores of current level
+              idx <= 12 &&
+              g.name.length > 3 &&
+              g.name.length < 10 &&
               g.levelName === game.currentImage.toUpperCase() && (
-                <tr className='text-center' key={g.name + '-' + idx}>
+                <tr
+                  className='text-center'
+                  key={g.name + '-' + g.attemptDuration}
+                >
                   <td className='text-white'>{idx + 1}</td>
                   <td>{g.name}</td>
                   <td>{(+g.attemptDuration / 1000).toFixed(1)}</td>
@@ -59,7 +67,7 @@ export default function LeaderBoards({
                 </tr>
               ),
           )}
-        </thead>
+        </tbody>
       </table>
     </div>
   );

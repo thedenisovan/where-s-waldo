@@ -4,7 +4,6 @@ import gameImages from '../../util.imports';
 import EliminationIndicators from './EliminationIndicator';
 import startGame from '../apiCalls/startGame';
 import completeGame from '../apiCalls/completeGame';
-import { getRecords } from '../apiCalls/completeGame';
 
 // Based on current level/image state show or hide this image
 export default function LevelImage({
@@ -164,7 +163,7 @@ export default function LevelImage({
   '
       >
         <label className='text-white text-sm font-medium' htmlFor='name'>
-          Name
+          Name (3-10 characters)
         </label>
 
         <input
@@ -182,9 +181,9 @@ export default function LevelImage({
         />
 
         <button
+          disabled={name.length > 10 || name.length < 4}
           onClick={(e) => {
-            completeGame(attemptId, e, name);
-            getRecords(game.setLeaderBoards);
+            completeGame(attemptId, e, name, game.setLeaderBoards);
             game.resetGame();
           }}
           className='
