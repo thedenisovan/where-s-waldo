@@ -43,19 +43,22 @@ export default function LevelImage({
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/attempt', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://find-a-char.up.railway.app/attempt',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            coordsX: game.coordinates[0],
+            coordsY: game.coordinates[1],
+            levelName: game.currentImage,
+            characterId,
+            attemptId,
+          }),
         },
-        body: JSON.stringify({
-          coordsX: game.coordinates[0],
-          coordsY: game.coordinates[1],
-          levelName: game.currentImage,
-          characterId,
-          attemptId,
-        }),
-      });
+      );
 
       if (!response.ok)
         throw new Error(`Error response status: ${response.status}`);

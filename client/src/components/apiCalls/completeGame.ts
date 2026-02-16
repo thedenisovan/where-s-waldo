@@ -1,5 +1,7 @@
 import type { Attempt } from '../context/GameContext';
 
+const url = `find-a-char.up.railway.app`;
+
 async function completeGame(
   attemptId: number | null,
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -9,7 +11,7 @@ async function completeGame(
   e.preventDefault();
 
   try {
-    const response = await fetch(`http://localhost:8080/complete`, {
+    const response = await fetch(`https://${url}/complete`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ export async function getRecords(
   setLeaderBoards: (attempts: Attempt[]) => void,
 ) {
   try {
-    const response = await fetch('http://localhost:8080/complete');
+    const response = await fetch(`https://${url}/complete`);
 
     if (!response.ok) {
       throw new Error(`Status: ${response.status}`);
