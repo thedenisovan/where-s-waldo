@@ -17,7 +17,7 @@ export default function LeaderBoards({
         <div>
           <h5 className='font-bold text-xl'>Hall of Fame</h5>
           <p className='text-gray-400'>
-            Top 10 scores for <span>{currentImage}</span>
+            Top scores for <span>{currentImage}</span>
           </p>
         </div>
         <svg
@@ -42,13 +42,12 @@ export default function LeaderBoards({
             <th className='pb-2'>DATE</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='overflow-auto'>
           {game.leaderboards.map(
-            (g, idx) =>
+            (g) =>
               // Display only scores of current game level
-              idx <= 10 &&
-              g.name.length > 3 &&
-              g.name.length < 10 &&
+              g.name.length >= 3 &&
+              g.name.length <= 15 &&
               g.levelName === game.currentImage.toUpperCase() && (
                 <tr
                   className='text-center'

@@ -166,7 +166,7 @@ export default function LevelImage({
   '
       >
         <label className='text-white text-sm font-medium' htmlFor='name'>
-          Name (3-10 characters)
+          Name (3-15 characters)
         </label>
 
         <input
