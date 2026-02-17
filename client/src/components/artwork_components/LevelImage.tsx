@@ -184,7 +184,7 @@ export default function LevelImage({
         />
 
         <button
-          disabled={name.length > 10 || name.length < 4}
+          disabled={name.length > 15 || name.length < 3}
           onClick={(e) => {
             completeGame(attemptId, e, name, game.setLeaderBoards);
             game.resetGame();
