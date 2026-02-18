@@ -4,6 +4,7 @@ import gameImages from '../../util.imports';
 import EliminationIndicators from './EliminationIndicator';
 import startGame from '../apiCalls/startGame';
 import completeGame from '../apiCalls/completeGame';
+import CharacterDropDown from './CharacterDropdown';
 
 // Based on current level/image state show or hide this image
 export default function LevelImage({
@@ -103,24 +104,7 @@ export default function LevelImage({
 
       <EliminationIndicators />
 
-      {/* This image is only being displayed on hardest game level */}
-      <img
-        src={gameImages.hardCharacters}
-        className='absolute w-[25%] right-0'
-        style={{
-          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
-          display: game.currentImage === 'Library' ? '' : 'none',
-        }}
-      />
-      {/* This image is only being displayed on easiest game level */}
-      <img
-        src={gameImages.easyCharacters}
-        className='absolute w-[25%] right-0'
-        style={{
-          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
-          display: game.currentImage === 'Pirates' ? '' : 'none',
-        }}
-      />
+      <CharacterPanel />
 
       <img
         onClick={(e) => getClickCoordinates(e)}
@@ -155,166 +139,103 @@ export default function LevelImage({
       </button>
 
       {/* Winner data form */}
-      <form
-        style={{ display: !game.isGameWon ? 'none' : '' }}
-        className='
+      <CompleteAttemptForm
+        name={name}
+        setName={setName}
+        attemptId={attemptId}
+      />
+    </span>
+  );
+}
+
+// Panel indicating what characters needs finding
+function CharacterPanel() {
+  const game = useContext(GameContext);
+
+  return (
+    <>
+      {/* This image is only being displayed on hardest game level */}
+      <img
+        src={gameImages.hardCharacters}
+        className='absolute w-[25%] right-0'
+        style={{
+          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
+          display: game.currentImage === 'Library' ? '' : 'none',
+        }}
+      />
+      {/* This image is only being displayed on easiest game level */}
+      <img
+        src={gameImages.easyCharacters}
+        className='absolute w-[25%] right-0'
+        style={{
+          filter: game.isGameOn && !game.isGameWon ? '' : 'blur(1.5rem)',
+          display: game.currentImage === 'Pirates' ? '' : 'none',
+        }}
+      />
+    </>
+  );
+}
+
+// Form for finishing attempt and submitting it to db
+function CompleteAttemptForm({
+  name,
+  setName,
+  attemptId,
+}: {
+  name: string;
+  setName: (name: string) => void;
+  attemptId: number | null;
+}) {
+  const game = useContext(GameContext);
+
+  {
+    /* Winner data form */
+  }
+  return (
+    <form
+      style={{ display: !game.isGameWon ? 'none' : '' }}
+      className='
     absolute flex flex-col gap-3
     translate-[50%] top-[10%] right-[50%]
     bg-black/70 backdrop-blur-md
     p-6 rounded-xl shadow-xl
     w-72
   '
-      >
-        <label className='text-white text-sm font-medium' htmlFor='name'>
-          Name (3-15 characters)
-        </label>
+    >
+      <label className='text-white text-sm font-medium' htmlFor='name'>
+        Name (3-15 characters)
+      </label>
 
-        <input
-          className='
+      <input
+        className='
       bg-white rounded-lg px-3 py-2
       outline-none
       focus:ring-2 focus:ring-blue-500
       transition
     '
-          type='text'
-          id='name'
-          name='name'
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
+        type='text'
+        id='name'
+        name='name'
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+      />
 
-        <button
-          disabled={name.length > 15 || name.length < 3}
-          onClick={(e) => {
-            completeGame(attemptId, e, name, game.setLeaderBoards);
-            game.resetGame();
-          }}
-          className='
+      <button
+        disabled={name.length > 15 || name.length < 3}
+        onClick={(e) => {
+          completeGame(attemptId, e, name, game.setLeaderBoards);
+          game.resetGame();
+        }}
+        className='
       text-white bg-blue-600
       rounded-lg py-2
       hover:bg-blue-700
       active:scale-95
       transition
     '
-        >
-          Submit
-        </button>
-      </form>
-    </span>
-  );
-}
-
-// Drop down menu, from where user selects character
-function CharacterDropDown({
-  img1,
-  img2,
-  img3,
-  title1,
-  title2,
-  title3,
-  makeAttempt,
-}: {
-  img1: string;
-  img2: string;
-  img3: string;
-  title1: string;
-  title2: string;
-  title3: string;
-  makeAttempt: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    characterId: number,
-  ) => void;
-}) {
-  const game = useContext(GameContext);
-
-  return (
-    <ul
-      className={`absolute bg-white flex flex-col gap-1 py-1 px-1 rounded-xl max-h-fit`}
-      style={{
-        // Conditionals so if user clicks on right/left/top/bottom side of the image the
-        // select element appears on opposite side
-        top: `${game.coordinates[1] < 50 ? game.coordinates[1] + 2 : game.coordinates[1] - 24}%`,
-        left: `${game.coordinates[0] < 50 ? game.coordinates[0] + 1 : game.coordinates[0] - 14}%`,
-        display:
-          game.coordinates[0] === -1 ||
-          game.coordinates[1] === -1 ||
-          !game.isGameOn ||
-          (!game.aliveCharacters[0] &&
-            !game.aliveCharacters[1] &&
-            !game.aliveCharacters[2])
-            ? 'none'
-            : '',
-      }}
-    >
-      <li
-        style={{
-          display: game.aliveCharacters[0] ? '' : 'none',
-        }}
-        className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
       >
-        <button
-          className='hover:cursor-pointer flex items-center gap-2'
-          onClick={(e) => {
-            makeAttempt(e, 1);
-            game.setCoordinates([-1, -1]);
-            game.setClicks(game.clicks + 1);
-          }}
-        >
-          <img
-            className='rounded-lg max-h-12'
-            width={40}
-            src={img1}
-            alt='game character'
-          />
-          <p className='font-bold text-gray-600'>{title1}</p>
-        </button>
-      </li>
-      <li
-        style={{
-          display: game.aliveCharacters[1] ? '' : 'none',
-        }}
-        className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
-      >
-        <button
-          className='hover:cursor-pointer flex items-center gap-2'
-          onClick={(e) => {
-            makeAttempt(e, 2);
-            game.setCoordinates([-1, -1]);
-            game.setClicks(game.clicks + 1);
-          }}
-        >
-          <img
-            className='rounded-lg max-h-12'
-            width={40}
-            src={img2}
-            alt='game character'
-          />
-          <p className='font-bold text-gray-600'>{title2}</p>
-        </button>
-      </li>
-      <li
-        style={{
-          display: game.aliveCharacters[2] ? '' : 'none',
-        }}
-        className={`hover:bg-gray-200 transition-colors rounded-r-xl mr-1`}
-      >
-        <button
-          className='hover:cursor-pointer flex items-center gap-2'
-          onClick={(e) => {
-            makeAttempt(e, 3);
-            game.setCoordinates([-1, -1]);
-            game.setClicks(game.clicks + 1);
-          }}
-        >
-          <img
-            className='rounded-lg max-h-12'
-            width={40}
-            src={img3}
-            alt='game character'
-          />
-          <p className='font-bold text-gray-600'>{title3}</p>
-        </button>
-      </li>
-    </ul>
+        Submit
+      </button>
+    </form>
   );
 }
