@@ -5,19 +5,23 @@ async function startGame(
 ) {
   e.preventDefault();
 
-  const response = await fetch(`https://find-a-char.up.railway.app/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ levelName: gameLevel }),
-  });
+  try {
+    const response = await fetch(`https://find-a-char.up.railway.app/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ levelName: gameLevel }),
+    });
 
-  if (!response.ok) throw new Error(`Response status: ${response.status}`);
+    if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
-  const result = await response.json();
+    const result = await response.json();
 
-  setAttemptId(result.attemptId);
+    setAttemptId(result.attemptId);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export default startGame;
