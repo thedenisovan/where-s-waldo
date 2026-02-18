@@ -1,9 +1,10 @@
 ### Where’s Waldo web game
 
-This is my personal project, built to solidify my knowledge of modern full-stack web development technologies. The game is designed to reduce the risk of cheating by keeping the solution data and leaderboard validation on the server; the client never receives authoritative solution coordinates.
+> [!NOTE]
+> This is my personal project, built to solidify my knowledge of modern full-stack web development technologies. The game is designed to reduce the risk of cheating by keeping the solution data and leaderboard validation on the server; the client never receives authoritative solution coordinates.
 
-#### Preview
-- ##### Live Demo: [my game](https://where-s-waldo.pages.dev/)
+> [!TIP]
+> ##### Live Demo: [my game](https://where-s-waldo.pages.dev/)
 
 #### Features
 - Play a Where’s Waldo–style game across three available artworks.
