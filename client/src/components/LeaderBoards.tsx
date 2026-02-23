@@ -31,41 +31,44 @@ export default function LeaderBoards({
         </svg>
       </header>
 
-      <table className='w-full'>
-        <thead aria-label='leaderboards table'>
-          <tr className='text-gray-400 text-xs md:text-md border-b border-gray-700'>
-            <th className='pb-2'>NAME</th>
-            <th className='pb-2'>
-              TIME (<span className='text-[10px]'>SECONDS</span>)
-            </th>
-            <th className='pb-2'>CLICKS</th>
-            <th className='pb-2'>DATE</th>
-          </tr>
-        </thead>
-        <tbody className='overflow-auto'>
-          {game.leaderboards.map(
-            (g) =>
-              // Display only scores of current game level
-              g.name.length >= 3 &&
-              g.name.length <= 15 &&
-              g.levelName === game.currentImage.toUpperCase() && (
-                <tr
-                  className='text-center'
-                  key={g.name + '-' + g.attemptDuration}
-                >
-                  <td>{g.name}</td>
-                  <td>{(+g.attemptDuration / 1000).toFixed(1)}</td>
-                  <td>{g.clicks}</td>
-                  <td>
-                    {g.attemptDate.split('-')[2][0]}
-                    {g.attemptDate.split('-')[2][1]}/
-                    {g.attemptDate.split('-')[1]}/{g.attemptDate.split('-')[0]}
-                  </td>
-                </tr>
-              ),
-          )}
-        </tbody>
-      </table>
+      <div className='max-h-55 overflow-auto'>
+        <table className='w-full relative'>
+          <thead aria-label='leaderboards relative table'>
+            <tr className='text-gray-400 text-xs sticky  bg-gray-800 top-0 md:text-md border-b border-gray-700'>
+              <th className='pb-2 rounded-tl-lg!'>NAME</th>
+              <th className='pb-2'>
+                TIME (<span className='text-[10px]'>SECONDS</span>)
+              </th>
+              <th className='pb-2'>CLICKS</th>
+              <th className='pb-2 rounded-tr-lg!'>DATE</th>
+            </tr>
+          </thead>
+          <tbody className=''>
+            {game.leaderboards.map(
+              (g) =>
+                // Display only scores of current game level
+                g.name.length >= 3 &&
+                g.name.length <= 15 &&
+                g.levelName === game.currentImage.toUpperCase() && (
+                  <tr
+                    className='text-center'
+                    key={g.name + '-' + g.attemptDuration}
+                  >
+                    <td>{g.name}</td>
+                    <td>{(+g.attemptDuration / 1000).toFixed(1)}</td>
+                    <td>{g.clicks}</td>
+                    <td>
+                      {g.attemptDate.split('-')[2][0]}
+                      {g.attemptDate.split('-')[2][1]}/
+                      {g.attemptDate.split('-')[1]}/
+                      {g.attemptDate.split('-')[0]}
+                    </td>
+                  </tr>
+                ),
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
